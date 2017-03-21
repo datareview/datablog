@@ -15,7 +15,7 @@ from pelicanconf import *
 DELETE_OUTPUT_DIRECTORY = False
 
 # use the correct abs url
-SITEURL = 'https://alexikey.github.io'
+SITEURL = 'https://datareview.github.io'
 RELATIVE_URLS = False
 
 
