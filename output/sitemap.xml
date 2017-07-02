@@ -4,112 +4,112 @@ xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitem
 xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-<loc>/</loc>
-<lastmod>2017-07-02T18:12:20-00:00</lastmod>
+<loc>https://datareview.github.io/</loc>
+<lastmod>2017-07-02T18:16:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/archives.html</loc>
-<lastmod>2017-07-02T18:12:20-00:00</lastmod>
+<loc>https://datareview.github.io/archives.html</loc>
+<lastmod>2017-07-02T18:16:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tags.html</loc>
-<lastmod>2017-07-02T18:12:20-00:00</lastmod>
+<loc>https://datareview.github.io/tags.html</loc>
+<lastmod>2017-07-02T18:16:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/categories.html</loc>
-<lastmod>2017-07-02T18:12:20-00:00</lastmod>
+<loc>https://datareview.github.io/categories.html</loc>
+<lastmod>2017-07-02T18:16:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/pages/about.html</loc>
+<loc>https://datareview.github.io/pages/about.html</loc>
 <lastmod>2017-02-07T15:00:00+02:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/pages/contact.html</loc>
+<loc>https://datareview.github.io/pages/contact.html</loc>
 <lastmod>2017-02-07T16:00:00+02:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/IMDB_dataset.html</loc>
+<loc>https://datareview.github.io/IMDB_dataset.html</loc>
 <lastmod>2017-06-30T19:20:00+03:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/google_history2.html</loc>
+<loc>https://datareview.github.io/google_history2.html</loc>
 <lastmod>2017-02-10T12:20:00+02:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/google_history1.html</loc>
+<loc>https://datareview.github.io/google_history1.html</loc>
 <lastmod>2017-02-09T10:20:00+02:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/category/r.html</loc>
+<loc>https://datareview.github.io/category/r.html</loc>
 <lastmod>2017-06-30T19:20:00+02:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/vizualization.html</loc>
+<loc>https://datareview.github.io/tag/vizualization.html</loc>
 <lastmod>2017-06-30T19:20:00+02:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/google-location.html</loc>
+<loc>https://datareview.github.io/tag/google-location.html</loc>
 <lastmod>2017-02-10T12:20:00+02:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/r.html</loc>
+<loc>https://datareview.github.io/tag/r.html</loc>
 <lastmod>2017-06-30T19:20:00+02:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/imdb.html</loc>
+<loc>https://datareview.github.io/tag/imdb.html</loc>
 <lastmod>2017-06-30T19:20:00+02:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/google-history.html</loc>
+<loc>https://datareview.github.io/tag/google-history.html</loc>
 <lastmod>2017-02-10T12:20:00+02:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/author/oleksandr-kursik.html</loc>
+<loc>https://datareview.github.io/author/oleksandr-kursik.html</loc>
 <lastmod>2017-06-30T19:20:00+02:02</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>

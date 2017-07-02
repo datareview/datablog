@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>DataStories - R</title><link href="https://datareview.github.io/" rel="alternate"></link><link href="https://datareview.github.io/feeds/r.atom.xml" rel="self"></link><id>https://datareview.github.io/</id><updated>2017-06-30T19:20:00+03:00</updated><entry><title>IMDB датасет</title><link href="https://datareview.github.io/IMDB_dataset.html" rel="alternate"></link><published>2017-06-30T19:20:00+03:00</published><updated>2017-06-30T19:20:00+03:00</updated><author><name>Oleksandr Kursik</name></author><id>tag:datareview.github.io,2017-06-30:/IMDB_dataset.html</id><summary type="html">&lt;style type="text/css"&gt;
 th {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: normal;
   background: #b9c9fe;
   border-top: 4px solid #aabcfe;
@@ -22,7 +22,7 @@ tr:hover td {background: #ccddff;}
 &lt;p&gt;&lt;img alt="" src="./images/1-Start%20picture.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;br&gt; Скоріш за все, якщо ми поставимо за мету, знайти людину, яка …&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;
 th {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: normal;
   background: #b9c9fe;
   border-top: 4px solid #aabcfe;
