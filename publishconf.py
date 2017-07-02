@@ -23,6 +23,6 @@ FEED_ALL_ATOM = 'feeds/all.atom.xml'
 CATEGORY_FEED_ATOM = 'feeds/%s.atom.xml'
 
 # Following items are often useful when publishing
-DISQUS_SITENAME = 'alexikey-github-io'
+DISQUS_SITENAME = 'datareview'
 DISQUS_NO_ID = True
-#GOOGLE_ANALYTICS = ""
+GOOGLE_ANALYTICS ='UA-96120506-1'

@@ -78,7 +78,7 @@ EXTRA_PATH_METADATA = {
 # Plugin Setup
 NOTEBOOK_DIR = 'notebooks'
 PLUGIN_PATHS = ['/home/alex/virtualenvs/pelican/pelican-plugins']
-PLUGINS = ['i18n_subsites','rmd_reader','tag_cloud'
+PLUGINS = ['i18n_subsites','rmd_reader','tag_cloud','sitemap','summary','assets'
             # 'liquid_tags.img', 'liquid_tags.video',
             # 'liquid_tags.youtube', 'liquid_tags.vimeo',
             # 'liquid_tags.include_code', 'liquid_tags.notebook'
@@ -118,6 +118,8 @@ TYPOGRIFY = True
 
 DISQUS_SITENAME = ''
 DISQUS_NO_ID = True
+
+
 # DISQUS_SECRET_KEY = u'YOUR_SECRET_KEY'
 # DISQUS_PUBLIC_KEY = u'YOUR_PUBLIC_KEY'
 
@@ -137,3 +139,18 @@ BANNER_ALL_PAGES = True
 HIDE_SITENAME = True
 #HIDE_SIDEBAR  = True
 #SITELOGO = 'images/profile.jpg'
+
+# Sitemap
+SITEMAP = {
+    'format': 'xml',
+    'priorities': {
+        'articles': 0.5,
+        'indexes': 0.5,
+        'pages': 0.5
+    },
+    'changefreqs': {
+        'articles': 'monthly',
+        'indexes': 'daily',
+        'pages': 'monthly'
+    }
+}

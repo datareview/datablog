@@ -6,7 +6,7 @@ Tags: google location, google history, vizualization, R
 Status: published
 
 
-У [попередній частині]() ми подивилися на свою збережену хронологію місцезнаходжень, яку зберігає Google. Сьогодні подивитимся на те, які ж дані і в якому форматі там зберігаються, а також як їх можливо використати. Для цього ми  отримаємо історію своїх переміщень у вигляді окремого файла. Давайте зайдемо в свій Google-account за посиланням <https://takeout.google.com/settings/takeout> та оберемо тільки пункт "Карти (ваші місця)":
+У [попередній частині](/google_history1.html) ми подивилися на свою збережену хронологію місцезнаходжень, яку зберігає Google. Сьогодні подивитимся на те, які ж дані і в якому форматі там зберігаються, а також як їх можливо використати. Для цього ми  отримаємо історію своїх переміщень у вигляді окремого файла. Давайте зайдемо в свій Google-account за посиланням <https://takeout.google.com/settings/takeout> та оберемо тільки пункт "Карти (ваші місця)":
 
 ![](./images/export1.jpg)
 
@@ -533,7 +533,6 @@ sessionInfo()
 
 3.  [My Google Location Data](https://rstudio-pubs-static.s3.amazonaws.com/60451_b3ba24cd0e854af491cb7e6816164a69.html)
 
-
 <div id="disqus_thread"></div>
 <script>
 
@@ -548,7 +547,7 @@ this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your pag
 */
 (function() { // DON'T EDIT BELOW THIS LINE
 var d = document, s = d.createElement('script');
-s.src = 'https://alexikey-github-io.disqus.com/embed.js';
+s.src = 'https://datareview.disqus.com/embed.js';
 s.setAttribute('data-timestamp', +new Date());
 (d.head || d.body).appendChild(s);
 })();
