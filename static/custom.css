@@ -1,0 +1,32 @@
+#banner {
+    padding: 85px 0;
+}
+
+#tipue_search_input {
+    padding: 9px 12px 9px 40px;
+    background-position: 15px 13px;
+}
+
+body {
+    font-family: "Helvetica Neue","Open Sans",Helvetica,Arial,sans-serif;
+    font-size: 17px;
+    line-height: 1.628571;
+}
+
+th {
+  font-size: 14px;
+  font-weight: normal;
+  background: #b9c9fe;
+  border-top: 4px solid #aabcfe;
+  border-bottom: 1px solid #fff;
+  color: #039;
+  padding: 8px;
+}
+td {
+  background: #e8edff;
+  border-bottom: 1px solid #fff;
+  color: #669;
+  border-top: 1px solid transparent;
+  padding: 8px;
+}
+tr:hover td {background: #ccddff;}

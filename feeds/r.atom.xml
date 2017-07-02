@@ -1,0 +1,1925 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>DataStories - R</title><link href="https://datareview.github.io/" rel="alternate"></link><link href="https://datareview.github.io/feeds/r.atom.xml" rel="self"></link><id>https://datareview.github.io/</id><updated>2017-06-30T19:20:00+03:00</updated><entry><title>IMDB датасет</title><link href="https://datareview.github.io/IMDB_dataset.html" rel="alternate"></link><published>2017-06-30T19:20:00+03:00</published><updated>2017-06-30T19:20:00+03:00</updated><author><name>Oleksandr Kursik</name></author><id>tag:datareview.github.io,2017-06-30:/IMDB_dataset.html</id><summary type="html">&lt;style type="text/css"&gt;
+th {
+  font-size: 14px;
+  font-weight: normal;
+  background: #b9c9fe;
+  border-top: 4px solid #aabcfe;
+  border-bottom: 1px solid #fff;
+  color: #039;
+  padding: 8px;
+}
+td {
+  background: #e8edff;
+  border-bottom: 1px solid #fff;
+  color: #669;
+  border-top: 1px solid transparent;
+  padding: 8px;
+}
+tr:hover td {background: #ccddff;}
+&lt;/style&gt;
+
+&lt;p&gt;&lt;img alt="" src="./images/1-Start%20picture.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt; Скоріш за все, якщо ми поставимо за мету, знайти людину, яка …&lt;/p&gt;</summary><content type="html">&lt;style type="text/css"&gt;
+th {
+  font-size: 14px;
+  font-weight: normal;
+  background: #b9c9fe;
+  border-top: 4px solid #aabcfe;
+  border-bottom: 1px solid #fff;
+  color: #039;
+  padding: 8px;
+}
+td {
+  background: #e8edff;
+  border-bottom: 1px solid #fff;
+  color: #669;
+  border-top: 1px solid transparent;
+  padding: 8px;
+}
+tr:hover td {background: #ccddff;}
+&lt;/style&gt;
+
+&lt;p&gt;&lt;img alt="" src="./images/1-Start%20picture.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt; Скоріш за все, якщо ми поставимо за мету, знайти людину, яка б не
+любила кіно, то зазнаємо поразки. Кіно, так чи інакше, люблять всі.
+Хтось фантастику чи драму, хтось фільми жахів чи детективи, можливо,
+документальне чи науково-популярне, але загалом кіно займає значну долю
+нашого культурного&amp;nbsp;життя.&lt;/p&gt;
+&lt;p&gt;В інтернеті можна знайти сайти-рейтинги для художніх фільмів (а також
+мультфільмів, серіалів, документальних стріок тощо), самий популярний та
+відомий з яких &lt;a href="http://imdb.com"&gt;imdb.com&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Із менш популярних можна&amp;nbsp;назвати:&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.rottentomatoes.com/"&gt;Rotten&amp;nbsp;Tomatoes&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.movies.com/"&gt;Movies.com&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.yahoo.com/movies/"&gt;Movies.yahoo&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.allmovie.com/"&gt;Allmovie&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;На такого роду сайтах ми можемо знайти багато цікавої інформації про
+фільм, починаючи від короткого змісту сюжету до фінансового успіху
+стрічки. Але якщо ми візьмемо дані про сотні чи навіть тисячі фільмів,
+чи зможемо ми виявити та узагальнити основні тенденціі кіноіндустрії?
+Давайте&amp;nbsp;спробуємо.&lt;/p&gt;
+&lt;p&gt;Перш за все нам будуть потрібні дані, з якими ми будемо працювати. На
+жаль, сайт &lt;a href="http://imdb.com"&gt;&lt;span class="caps"&gt;IMDB&lt;/span&gt;&lt;/a&gt; не дає змоги отримати дані про всі
+фільми у вигляді якої-небудь таблиці, з якою вже було б зручно
+працювати. Тому дослідники вимушені використовувати різні програмні
+трюки, щоб зібрати дані та переформатувати їх у зручний для аналізу&amp;nbsp;вигляд.&lt;/p&gt;
+&lt;p&gt;Оскільки я не перший, кого зацікавило дане питання, то я можу
+використати готовий до вжитку, найбільш популярний щодо кіноіндустрії,
+датасет &lt;a href="https://www.kaggle.com/deepmatrix/imdb-5000-movie-dataset"&gt;&lt;span class="caps"&gt;IMDB&lt;/span&gt; 5000 Movie
+Dataset&lt;/a&gt;,
+остання версія якого датується 14 серпня 2016 року. Тобто останні фільми
+з серпня 2016 туда не ввійдуть, але на загальні тенденції це практично
+не&amp;nbsp;вплине.&lt;/p&gt;
+&lt;p&gt;Отже,&amp;nbsp;почнемо.&lt;/p&gt;
+&lt;h2&gt;Що&amp;nbsp;всередині?&lt;/h2&gt;
+&lt;p&gt;Прочитаємо датасет та подивимось на його&amp;nbsp;структуру:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;movies = read.csv(&amp;quot;movie_metadata.csv&amp;quot;,stringsAsFactors = F,
+                  encoding = &amp;quot;UTF-8&amp;quot;,na.strings=c(&amp;quot;&amp;quot;,&amp;quot; &amp;quot;,&amp;quot;NA&amp;quot;,&amp;quot;NULL&amp;quot;))
+str(movies)
+
+## &amp;#39;data.frame&amp;#39;:    5043 obs. of  28 variables:
+##  $ color                    : chr  &amp;quot;Color&amp;quot; &amp;quot;Color&amp;quot; &amp;quot;Color&amp;quot; &amp;quot;Color&amp;quot; ...
+##  $ director_name            : chr  &amp;quot;James Cameron&amp;quot; &amp;quot;Gore Verbinski&amp;quot; &amp;quot;Sam Mendes&amp;quot; &amp;quot;Christopher Nolan&amp;quot; ...
+##  $ num_critic_for_reviews   : int  723 302 602 813 NA 462 392 324 635 375 ...
+##  $ duration                 : int  178 169 148 164 NA 132 156 100 141 153 ...
+##  $ director_facebook_likes  : int  0 563 0 22000 131 475 0 15 0 282 ...
+##  $ actor_3_facebook_likes   : int  855 1000 161 23000 NA 530 4000 284 19000 10000 ...
+##  $ actor_2_name             : chr  &amp;quot;Joel David Moore&amp;quot; &amp;quot;Orlando Bloom&amp;quot; &amp;quot;Rory Kinnear&amp;quot; &amp;quot;Christian Bale&amp;quot; ...
+##  $ actor_1_facebook_likes   : int  1000 40000 11000 27000 131 640 24000 799 26000 25000 ...
+##  $ gross                    : int  760505847 309404152 200074175 448130642 NA 73058679 336530303 200807262 458991599 301956980 ...
+##  $ genres                   : chr  &amp;quot;Action|Adventure|Fantasy|Sci-Fi&amp;quot; &amp;quot;Action|Adventure|Fantasy&amp;quot; &amp;quot;Action|Adventure|Thriller&amp;quot; &amp;quot;Action|Thriller&amp;quot; ...
+##  $ actor_1_name             : chr  &amp;quot;CCH Pounder&amp;quot; &amp;quot;Johnny Depp&amp;quot; &amp;quot;Christoph Waltz&amp;quot; &amp;quot;Tom Hardy&amp;quot; ...
+##  $ movie_title              : chr  &amp;quot;Avatar &amp;quot; &amp;quot;Pirates of the Caribbean: At World&amp;#39;s End &amp;quot; &amp;quot;Spectre &amp;quot; &amp;quot;The Dark Knight Rises &amp;quot; ...
+##  $ num_voted_users          : int  886204 471220 275868 1144337 8 212204 383056 294810 462669 321795 ...
+##  $ cast_total_facebook_likes: int  4834 48350 11700 106759 143 1873 46055 2036 92000 58753 ...
+##  $ actor_3_name             : chr  &amp;quot;Wes Studi&amp;quot; &amp;quot;Jack Davenport&amp;quot; &amp;quot;Stephanie Sigman&amp;quot; &amp;quot;Joseph Gordon-Levitt&amp;quot; ...
+##  $ facenumber_in_poster     : int  0 0 1 0 0 1 0 1 4 3 ...
+##  $ plot_keywords            : chr  &amp;quot;avatar|future|marine|native|paraplegic&amp;quot; &amp;quot;goddess|marriage ceremony|marriage proposal|pirate|singapore&amp;quot; &amp;quot;bomb|espionage|sequel|spy|terrorist&amp;quot; &amp;quot;deception|imprisonment|lawlessness|police officer|terrorist plot&amp;quot; ...
+##  $ movie_imdb_link          : chr  &amp;quot;http://www.imdb.com/title/tt0499549/?ref_=fn_tt_tt_1&amp;quot; &amp;quot;http://www.imdb.com/title/tt0449088/?ref_=fn_tt_tt_1&amp;quot; &amp;quot;http://www.imdb.com/title/tt2379713/?ref_=fn_tt_tt_1&amp;quot; &amp;quot;http://www.imdb.com/title/tt1345836/?ref_=fn_tt_tt_1&amp;quot; ...
+##  $ num_user_for_reviews     : int  3054 1238 994 2701 NA 738 1902 387 1117 973 ...
+##  $ language                 : chr  &amp;quot;English&amp;quot; &amp;quot;English&amp;quot; &amp;quot;English&amp;quot; &amp;quot;English&amp;quot; ...
+##  $ country                  : chr  &amp;quot;USA&amp;quot; &amp;quot;USA&amp;quot; &amp;quot;UK&amp;quot; &amp;quot;USA&amp;quot; ...
+##  $ content_rating           : chr  &amp;quot;PG-13&amp;quot; &amp;quot;PG-13&amp;quot; &amp;quot;PG-13&amp;quot; &amp;quot;PG-13&amp;quot; ...
+##  $ budget                   : num  2.37e+08 3.00e+08 2.45e+08 2.50e+08 NA ...
+##  $ title_year               : int  2009 2007 2015 2012 NA 2012 2007 2010 2015 2009 ...
+##  $ actor_2_facebook_likes   : int  936 5000 393 23000 12 632 11000 553 21000 11000 ...
+##  $ imdb_score               : num  7.9 7.1 6.8 8.5 7.1 6.6 6.2 7.8 7.5 7.5 ...
+##  $ aspect_ratio             : num  1.78 2.35 2.35 2.35 NA 2.35 2.35 1.85 2.35 2.35 ...
+##  $ movie_facebook_likes     : int  33000 0 85000 164000 0 24000 0 29000 118000 10000 ...
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;З назви полів легко зрозуміти їх сутність - кольоровий чи чорнобілий
+фільм, прізвище режисера, кількість критичних оглядів, тривалість
+фільму, актори та&amp;nbsp;інше.&lt;/p&gt;
+&lt;p&gt;Унікальний ключ для одного запису (рядка в таблиці) - це поле
+&amp;#8220;movie_imdb_link&amp;#8221;, тобто посилання на фільм на сайті &lt;span class="caps"&gt;IMDB&lt;/span&gt;, воно має
+бути унікальне для кожної стрічки. Подивимось чи дублються&amp;nbsp;записи:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sum(duplicated(movies$movie_imdb_link))
+
+## [1] 124
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Так, є 124 дублікатів, приберемо їх, а також приберемо непотрібні
+пробіли на початку та в кінці назви&amp;nbsp;фільму&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;uni_movies &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;movies&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="kp"&gt;duplicated&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;movies&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link&lt;span class="p"&gt;))&lt;/span&gt;
+uni_movies&lt;span class="o"&gt;$&lt;/span&gt;movie_title &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; str_trim&lt;span class="p"&gt;(&lt;/span&gt;uni_movies&lt;span class="o"&gt;$&lt;/span&gt;movie_title&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Перед тим, як починати шукати закономірності, давайте подивимось
+розподіл голосів для&amp;nbsp;фільмів:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;summary(uni_movies$num_voted_users)
+
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##       5    8356   33160   82620   93760 1690000
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Як бачимо, мінімальна кількість голосів - це 5, середня по вибірці це 82
+620, медіана,тобто кількість, яка найбільш часто зустрічається у
+вибірці, це 33 160&amp;nbsp;голосів.&lt;/p&gt;
+&lt;h3&gt;Яка з цього&amp;nbsp;користь?&lt;/h3&gt;
+&lt;p&gt;Саме просте, для чого можна використати ці дані - це отримати перелік
+топових стрічок. Подивимось &lt;span class="caps"&gt;TOP20&lt;/span&gt; фільмів за оцінкою відвідувачів сайту.
+&lt;img alt="" src="./figure/movie_rating/unnamed-chunk-6-1.png"&gt;&lt;/p&gt;
+&lt;p&gt;На перший погляд, все логічно, проте що це за лідер рейтингу &amp;#8216;Towering
+Inferno&amp;#8217; ? Особисто я про цей фільм ніколи не&amp;nbsp;чув&amp;#8230;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;uni_movies&lt;span class="o"&gt;$&lt;/span&gt;movie_title &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Towering Inferno&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+str&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;## &amp;#39;data.frame&amp;#39;:    1 obs. of  28 variables:&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ color                    : chr &amp;quot;Color&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ director_name            : chr &amp;quot;John Blanchard&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ num_critic_for_reviews   : int NA&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ duration                 : int 65&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ director_facebook_likes  : int 0&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ actor_3_facebook_likes   : int 176&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ actor_2_name             : chr &amp;quot;Andrea Martin&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ actor_1_facebook_likes   : int 770&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ gross                    : int NA&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ genres                   : chr &amp;quot;Comedy&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ actor_1_name             : chr &amp;quot;Martin Short&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ movie_title              : chr &amp;quot;Towering Inferno&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ num_voted_users          : int 10&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ cast_total_facebook_likes: int 1125&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ actor_3_name             : chr &amp;quot;Joe Flaherty&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ facenumber_in_poster     : int 2&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ plot_keywords            : chr NA&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ movie_imdb_link          : chr &amp;quot;http://www.imdb.com/title/tt0691996/?ref_=fn_tt_tt_1&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ num_user_for_reviews     : int NA&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ language                 : chr &amp;quot;English&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ country                  : chr &amp;quot;Canada&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ content_rating           : chr NA&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ budget                   : num NA&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ title_year               : int NA&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ actor_2_facebook_likes   : int 179&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ imdb_score               : num 9.5&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ aspect_ratio             : num 1.33&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ movie_facebook_likes     : int 0&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Так, дійсно, це комедія, рейтинг 9.5, оцінили 10 користувачів, знято
+було в Канаді, рік випуску в датасеті невідомий. Знайдемо його на
+imdb.com: &lt;a href="http://www.imdb.com/title/tt0691996/?ref_=fn_tt_tt_1"&gt;Towering&amp;nbsp;Inferno&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="./images/tt0691996.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt; Це комедійний серіал, знятий в 1981-1983 роках. На сьогодні на
+imdb.com за цей фільм проголосували 14 користувачів та його рейтинг впав
+до 9,4. Можливо, це дійсно хороший фільм, але він мало відомий загалу
+кіноглядачів. На мій погляд, такі випадки викривляють ТОР20, тому
+потрібно встановити мінімальну кількість голосів на сайті, після якої
+фільм попадає до ТОР20. В якості межі по мінімальної кількості голосів
+поставимо медіану розподілу, тобто 33 160 голосів за&amp;nbsp;фільм.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;uni_movies&lt;span class="o"&gt;$&lt;/span&gt;num_voted_users&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="m"&gt;33160&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;  select&lt;span class="p"&gt;(&lt;/span&gt;movie_title&lt;span class="p"&gt;,&lt;/span&gt;imdb_score&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; arrange&lt;span class="p"&gt;(&lt;/span&gt;desc&lt;span class="p"&gt;(&lt;/span&gt;imdb_score&lt;span class="p"&gt;))&lt;/span&gt; 
+temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; temp&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="m"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,]&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Add title, narrower bars, fill color, and change axis labels&lt;/span&gt;
+&lt;span class="c1"&gt;#Bar Chart with 2 variables&lt;/span&gt;
+ggplot&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;,&lt;/span&gt; aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; reorder&lt;span class="p"&gt;(&lt;/span&gt;movie_title&lt;span class="p"&gt;,&lt;/span&gt;imdb_score&lt;span class="p"&gt;),&lt;/span&gt; 
+    y &lt;span class="o"&gt;=&lt;/span&gt; imdb_score&lt;span class="p"&gt;,&lt;/span&gt; fill &lt;span class="o"&gt;=&lt;/span&gt; imdb_score&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_bar&lt;span class="p"&gt;(&lt;/span&gt;stat&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;identity&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; 
+  geom_text&lt;span class="p"&gt;(&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; movie_title &lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; label&lt;span class="o"&gt;=&lt;/span&gt;imdb_score&lt;span class="p"&gt;),&lt;/span&gt;
+    hjust&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; vjust&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0.55&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; size &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;red&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  labs&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;movie_title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  coord_flip&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; 
+  theme_few&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;scale_colour_few&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="" src="./figure/movie_rating/unnamed-chunk-8-1.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Яким чином розподіляються голоси та який середній бал фільмів по даним в&amp;nbsp;цілому:&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;summary(uni_movies$imdb_score)
+
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   1.600   5.800   6.600   6.438   7.200   9.500
+
+ggplot(uni_movies, aes(x=imdb_score)) +
+    geom_histogram(binwidth=0.2, colour=&amp;quot;black&amp;quot;, fill=&amp;quot;steelblue&amp;quot;) +
+    scale_x_continuous(&amp;quot;imdb_score&amp;quot;, breaks = seq(0, 9.5, by = 0.5)) +
+    geom_vline(aes(xintercept=mean(imdb_score, na.rm=T)),   # Ignore NA values for mean
+              color=&amp;quot;red&amp;quot;, linetype=&amp;quot;dashed&amp;quot;, size=1, show.legend = TRUE)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="" src="./figure/movie_rating/unnamed-chunk-9-1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Як бачимо, форма розподілу наближений до форми &amp;#8220;дзвону&amp;#8221;, отже розподіл
+наближається до нормального. Червоний пунктир показує середнє значення
+для рейтингу по всій вибірці, яке дорівнює&amp;nbsp;6.438.&lt;/p&gt;
+&lt;h2&gt;Залежність кількості знятих фільмів від року їх&amp;nbsp;випуску.&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;
+  uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; select&lt;span class="p"&gt;(&lt;/span&gt;title_year&lt;span class="p"&gt;,&lt;/span&gt; imdb_score&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; group_by&lt;span class="p"&gt;(&lt;/span&gt;title_year&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+  summarise&lt;span class="p"&gt;(&lt;/span&gt;quantity &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;length&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;title_year&lt;span class="p"&gt;))&lt;/span&gt;
+
+  ggplot&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;,&lt;/span&gt; aes&lt;span class="p"&gt;(&lt;/span&gt;title_year&lt;span class="p"&gt;,&lt;/span&gt; quantity&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_line&lt;span class="p"&gt;(&lt;/span&gt;na.rm &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_smooth&lt;span class="p"&gt;(&lt;/span&gt;na.rm &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;## `geom_smooth()` using method = &amp;#39;loess&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="" src="./figure/movie_rating/unnamed-chunk-10-1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Як ми всі, напевно, здогадувались, кількість стрічок зростає з кожним
+роком (Падіння графіку за останній рік лише показує, що дані було взято
+до серпня&amp;nbsp;2016).&lt;/p&gt;
+&lt;h2&gt;Залежність рейтингу від&amp;nbsp;року:&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;
+  uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; select&lt;span class="p"&gt;(&lt;/span&gt;title_year&lt;span class="p"&gt;,&lt;/span&gt; imdb_score&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; group_by&lt;span class="p"&gt;(&lt;/span&gt;title_year&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+  summarise&lt;span class="p"&gt;(&lt;/span&gt;mean_rate &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;imdb_score&lt;span class="p"&gt;))&lt;/span&gt;
+
+ggplot&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;,&lt;/span&gt; aes&lt;span class="p"&gt;(&lt;/span&gt;title_year&lt;span class="p"&gt;,&lt;/span&gt; mean_rate&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_line&lt;span class="p"&gt;(&lt;/span&gt;na.rm &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_smooth&lt;span class="p"&gt;(&lt;/span&gt;na.rm &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;## `geom_smooth()` using method = &amp;#39;loess&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="" src="./figure/movie_rating/unnamed-chunk-11-1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Тут спостерігається інша тенденція - піковий балл оцінки фільмів
+належить до фільмів кінця 50-х - початок 60-х років. Далі, рейтинг
+фільмів плавно знижується та наближається до середнього. Можна зробити і
+наступний висновок: оскільки загальна кількість знятих фільмів щороку
+збільшується, але кількість гарних стрічок (можливо і не менша ніж у
+50-х чи 60-х) &amp;#8220;розмивається&amp;#8221; загальною кількістю фільмів і тому середній
+бал&amp;nbsp;падає.&lt;/p&gt;
+&lt;p&gt;Ще одна цікава залежність - рейтинг жанру, в якому було знято&amp;nbsp;фільм.&lt;/p&gt;
+&lt;h2&gt;ТОП найбільш популярних жанрів у&amp;nbsp;кіно:&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# Subset the genres
+genre = movies[&amp;#39;genres&amp;#39;]
+
+# Count how many times each genre is in the dataset
+genre = data.frame(table(genre))
+
+# Sort the dataset by the frequency each genre appears
+genre = genre[order(genre$Freq,decreasing=TRUE),]
+
+# Plot the top 20 genres with the most movies
+ggplot(genre[1:20,], aes(x=reorder(factor(genre), Freq), y=Freq, fill=Freq)) + 
+  geom_bar(stat = &amp;quot;identity&amp;quot;) + 
+  xlab(&amp;quot;Genre&amp;quot;) + 
+  ylab(&amp;quot;Number of Movies&amp;quot;) + 
+  ggtitle(&amp;quot;Top 20 genres with the most movies&amp;quot;) + 
+  coord_flip()+theme_few() + scale_colour_few()
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="" src="./figure/movie_rating/unnamed-chunk-12-1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Тут також потрібно зважати на кількість голосів, тому встановим
+додатковий фільтр для попадання в рейтинг у вигляді &amp;#8220;кількість голосів
+більше або дорівнює 33 160&amp;#8221;, а також відокремимо жанри для стрічок, що
+мають декілька жанрових&amp;nbsp;позначок:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;uni_movies&lt;span class="o"&gt;$&lt;/span&gt;num_voted_users&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="m"&gt;33160&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; select&lt;span class="p"&gt;(&lt;/span&gt;genres &lt;span class="p"&gt;,&lt;/span&gt; imdb_score&lt;span class="p"&gt;)&lt;/span&gt;
+temp&lt;span class="o"&gt;$&lt;/span&gt;genres &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;substr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="o"&gt;$&lt;/span&gt;genres&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                      &lt;span class="kp"&gt;ifelse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                        &lt;span class="kp"&gt;regexpr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;[|]&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; temp&lt;span class="o"&gt;$&lt;/span&gt;genres&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                        &lt;span class="kp"&gt;regexpr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;[|]&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; temp&lt;span class="o"&gt;$&lt;/span&gt;genres&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                        &lt;span class="kp"&gt;nchar&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="o"&gt;$&lt;/span&gt;genres&lt;span class="p"&gt;)&lt;/span&gt;
+                      &lt;span class="p"&gt;))&lt;/span&gt;
+
+temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; temp &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; group_by&lt;span class="p"&gt;(&lt;/span&gt;genres&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+  summarise&lt;span class="p"&gt;(&lt;/span&gt;mean_rate &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;round&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;imdb_score&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+ggplot&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;,&lt;/span&gt; aes&lt;span class="p"&gt;(&lt;/span&gt;
+  x &lt;span class="o"&gt;=&lt;/span&gt; reorder&lt;span class="p"&gt;(&lt;/span&gt;genres&lt;span class="p"&gt;,&lt;/span&gt; mean_rate&lt;span class="p"&gt;),&lt;/span&gt;
+  y &lt;span class="o"&gt;=&lt;/span&gt; mean_rate&lt;span class="p"&gt;,&lt;/span&gt;
+  fill &lt;span class="o"&gt;=&lt;/span&gt; mean_rate
+&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_bar&lt;span class="p"&gt;(&lt;/span&gt;stat &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;identity&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_text&lt;span class="p"&gt;(&lt;/span&gt;
+    aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; genres&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; label &lt;span class="o"&gt;=&lt;/span&gt; mean_rate&lt;span class="p"&gt;),&lt;/span&gt;
+    hjust &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    vjust &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.55&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    size &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;red&amp;#39;&lt;/span&gt;
+  &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  labs&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;Genres&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  coord_flip&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggtitle&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Top genres with the most movies&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; 
+  theme_few&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; scale_colour_few&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="" src="./figure/movie_rating/unnamed-chunk-13-1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Як бачимо, найбільш популярний жанр фільмів - це вестерн, за ним йде
+трилер, потім сімейні та біографічні&amp;nbsp;фільми.&lt;/p&gt;
+&lt;h2&gt;ТОП країн, чиї фільми оцінюються вищими&amp;nbsp;балами:&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;
+uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;uni_movies&lt;span class="o"&gt;$&lt;/span&gt;num_voted_users &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="m"&gt;33160&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; select&lt;span class="p"&gt;(&lt;/span&gt;country&lt;span class="p"&gt;,&lt;/span&gt; imdb_score&lt;span class="p"&gt;)&lt;/span&gt;
+temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;
+temp &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; group_by&lt;span class="p"&gt;(&lt;/span&gt;country&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; summarize&lt;span class="p"&gt;(&lt;/span&gt;appear.count &lt;span class="o"&gt;=&lt;/span&gt; n&lt;span class="p"&gt;(),&lt;/span&gt; mean_rate &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kp"&gt;round&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;imdb_score&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; filter&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;,&lt;/span&gt; appear.count &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+ggplot&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;,&lt;/span&gt; aes&lt;span class="p"&gt;(&lt;/span&gt;
+  x &lt;span class="o"&gt;=&lt;/span&gt; reorder&lt;span class="p"&gt;(&lt;/span&gt;country&lt;span class="p"&gt;,&lt;/span&gt; mean_rate&lt;span class="p"&gt;),&lt;/span&gt;
+  y &lt;span class="o"&gt;=&lt;/span&gt; mean_rate&lt;span class="p"&gt;,&lt;/span&gt;
+  fill &lt;span class="o"&gt;=&lt;/span&gt; mean_rate
+&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_bar&lt;span class="p"&gt;(&lt;/span&gt;stat &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;identity&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_text&lt;span class="p"&gt;(&lt;/span&gt;
+    aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; country&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; label &lt;span class="o"&gt;=&lt;/span&gt; mean_rate&lt;span class="p"&gt;),&lt;/span&gt;
+    hjust &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    vjust &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.55&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    size &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;red&amp;#39;&lt;/span&gt;
+  &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  labs&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;country&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  ggtitle&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Top countries VS IMDB score with the most movies&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; 
+  coord_flip&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  theme_few&lt;span class="p"&gt;(&lt;/span&gt;base_size &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; scale_colour_few&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="" src="./figure/movie_rating/unnamed-chunk-14-1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Як не дивно, але перша трійка - це не США, а Іспанія, Великобританія та
+Франція. Пізніше ми більш детально розглянемо, які фільми від цих країн
+війшли в&amp;nbsp;ТОР.&lt;/p&gt;
+&lt;p&gt;Ще один цікавий&amp;nbsp;рейтинг:&lt;/p&gt;
+&lt;h2&gt;Рейтинг режисерів в залежності від оцінки їх&amp;nbsp;фільмів.&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;
+  uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;uni_movies&lt;span class="o"&gt;$&lt;/span&gt;num_voted_users &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;33160&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; select&lt;span class="p"&gt;(&lt;/span&gt;director_name&lt;span class="p"&gt;,&lt;/span&gt; imdb_score&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;   group_by&lt;span class="p"&gt;(&lt;/span&gt;director_name&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; summarise&lt;span class="p"&gt;(&lt;/span&gt;mean_rate &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="kp"&gt;round&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;imdb_score&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+  arrange&lt;span class="p"&gt;(&lt;/span&gt;desc&lt;span class="p"&gt;(&lt;/span&gt;mean_rate&lt;span class="p"&gt;))&lt;/span&gt;
+
+  temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; temp&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="m"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+
+  ggplot&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;,&lt;/span&gt; aes&lt;span class="p"&gt;(&lt;/span&gt;
+  x &lt;span class="o"&gt;=&lt;/span&gt; reorder&lt;span class="p"&gt;(&lt;/span&gt;director_name&lt;span class="p"&gt;,&lt;/span&gt; mean_rate&lt;span class="p"&gt;),&lt;/span&gt;
+  y &lt;span class="o"&gt;=&lt;/span&gt; mean_rate&lt;span class="p"&gt;,&lt;/span&gt;
+  fill &lt;span class="o"&gt;=&lt;/span&gt; mean_rate
+  &lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  geom_bar&lt;span class="p"&gt;(&lt;/span&gt;stat &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;identity&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  coord_cartesian&lt;span class="p"&gt;(&lt;/span&gt;ylim&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;9.0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;
+  geom_text&lt;span class="p"&gt;(&lt;/span&gt;
+  aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; director_name&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; label &lt;span class="o"&gt;=&lt;/span&gt; mean_rate&lt;span class="p"&gt;),&lt;/span&gt;
+  hjust &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  vjust &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.55&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  size &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  colour &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;red&amp;#39;&lt;/span&gt;
+  &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  labs&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;director_name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  coord_flip&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="" src="./figure/movie_rating/unnamed-chunk-15-1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Якщо поглиблюватись у деталі, то &lt;span class="caps"&gt;IMDB&lt;/span&gt; датасет дає змогу проаналізувати
+ще багато цікавих та неявних залежностей у світі кіно. Можливо, якось я
+ще раз повернусь до аналізу цього набору даних. А поки що хочу завершити
+пост корисними рекомендаціями. У наш час дуже багато інформації, яка
+інколи буквально затоплює нас, і основна мета, часто, не знайти
+інформацію, а обмежити її. Зрозуміло, що ми не можемо переглянути всі
+стрічки у світі, проте нам не хотілось би пропустити&amp;nbsp;найкращі.&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="./images/Red&amp;amp;Blue.jpeg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt; Оскільки &amp;#8220;Everything begins with choice&amp;#8221; (Все починається з
+вибору), то сподіваюсь, у вас тепер буде вибір, що дивитись і моя стаття
+цьому допоможе. Тому я закінчу просто переліками &lt;span class="caps"&gt;TOP10&lt;/span&gt; фільмів на базі
+&lt;span class="caps"&gt;IMDB&lt;/span&gt;&amp;nbsp;датасету:&lt;/p&gt;
+&lt;h3&gt;ТОП10 фільмів всіх&amp;nbsp;часів:&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;uni_movies&lt;span class="o"&gt;$&lt;/span&gt;num_voted_users&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="m"&gt;33160&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;  select&lt;span class="p"&gt;(&lt;/span&gt;movie_title&lt;span class="p"&gt;,&lt;/span&gt;director_name&lt;span class="p"&gt;,&lt;/span&gt; imdb_score&lt;span class="p"&gt;,&lt;/span&gt;movie_imdb_link&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; arrange&lt;span class="p"&gt;(&lt;/span&gt;desc&lt;span class="p"&gt;(&lt;/span&gt;imdb_score&lt;span class="p"&gt;))&lt;/span&gt;
+
+temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; temp&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,]&lt;/span&gt;
+temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;paste0&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot; [Подивитись на imdb.com](&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+
+knitr&lt;span class="o"&gt;::&lt;/span&gt;kable&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;movie_title&lt;/th&gt;
+&lt;th align="left"&gt;director_name&lt;/th&gt;
+&lt;th align="right"&gt;imdb_score&lt;/th&gt;
+&lt;th align="left"&gt;movie_imdb_link&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;The Shawshank Redemption&lt;/td&gt;
+&lt;td align="left"&gt;Frank Darabont&lt;/td&gt;
+&lt;td align="right"&gt;9.3&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0111161/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Godfather&lt;/td&gt;
+&lt;td align="left"&gt;Francis Ford Coppola&lt;/td&gt;
+&lt;td align="right"&gt;9.2&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0068646/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;The Dark Knight&lt;/td&gt;
+&lt;td align="left"&gt;Christopher Nolan&lt;/td&gt;
+&lt;td align="right"&gt;9.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0468569/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Godfather: Part &lt;span class="caps"&gt;II&lt;/span&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Francis Ford Coppola&lt;/td&gt;
+&lt;td align="right"&gt;9.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0071562/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Fargo&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;NA&lt;/span&gt;&lt;/td&gt;
+&lt;td align="right"&gt;9.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt2802850/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Lord of the Rings: The Return of the King&lt;/td&gt;
+&lt;td align="left"&gt;Peter Jackson&lt;/td&gt;
+&lt;td align="right"&gt;8.9&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0167260/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Schindler&amp;#8217;s List&lt;/td&gt;
+&lt;td align="left"&gt;Steven Spielberg&lt;/td&gt;
+&lt;td align="right"&gt;8.9&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0108052/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Pulp Fiction&lt;/td&gt;
+&lt;td align="left"&gt;Quentin Tarantino&lt;/td&gt;
+&lt;td align="right"&gt;8.9&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0110912/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;The Good, the Bad and the Ugly&lt;/td&gt;
+&lt;td align="left"&gt;Sergio Leone&lt;/td&gt;
+&lt;td align="right"&gt;8.9&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0060196/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;12 Angry Men&lt;/td&gt;
+&lt;td align="left"&gt;Sidney Lumet&lt;/td&gt;
+&lt;td align="right"&gt;8.9&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0050083/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Пройдемось по&amp;nbsp;жанрах.&lt;/p&gt;
+&lt;h3&gt;ТОП10&amp;nbsp;вестернів:&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;uni_movies&lt;span class="o"&gt;$&lt;/span&gt;num_voted_users&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="m"&gt;33160&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="kp"&gt;grepl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Western&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; uni_movies&lt;span class="o"&gt;$&lt;/span&gt;genres&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;  select&lt;span class="p"&gt;(&lt;/span&gt;movie_title&lt;span class="p"&gt;,&lt;/span&gt;director_name&lt;span class="p"&gt;,&lt;/span&gt;imdb_score&lt;span class="p"&gt;,&lt;/span&gt;movie_imdb_link&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; arrange&lt;span class="p"&gt;(&lt;/span&gt;desc&lt;span class="p"&gt;(&lt;/span&gt;imdb_score&lt;span class="p"&gt;))&lt;/span&gt;
+
+temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; temp&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,]&lt;/span&gt;
+temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;paste0&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot; [Подивитись на imdb.com](&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+knitr&lt;span class="o"&gt;::&lt;/span&gt;kable&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;movie_title&lt;/th&gt;
+&lt;th align="left"&gt;director_name&lt;/th&gt;
+&lt;th align="right"&gt;imdb_score&lt;/th&gt;
+&lt;th align="left"&gt;movie_imdb_link&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;The Good, the Bad and the Ugly&lt;/td&gt;
+&lt;td align="left"&gt;Sergio Leone&lt;/td&gt;
+&lt;td align="right"&gt;8.9&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0060196/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Once Upon a Time in the West&lt;/td&gt;
+&lt;td align="left"&gt;Sergio Leone&lt;/td&gt;
+&lt;td align="right"&gt;8.6&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0064116/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Django Unchained&lt;/td&gt;
+&lt;td align="left"&gt;Quentin Tarantino&lt;/td&gt;
+&lt;td align="right"&gt;8.5&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt1853728/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Unforgiven&lt;/td&gt;
+&lt;td align="left"&gt;Clint Eastwood&lt;/td&gt;
+&lt;td align="right"&gt;8.3&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0105695/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;The Revenant&lt;/td&gt;
+&lt;td align="left"&gt;Alejandro G. Iñárritu&lt;/td&gt;
+&lt;td align="right"&gt;8.1&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt1663202/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Butch Cassidy and the Sundance Kid&lt;/td&gt;
+&lt;td align="left"&gt;George Roy Hill&lt;/td&gt;
+&lt;td align="right"&gt;8.1&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0064115/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;The Man Who Shot Liberty Valance&lt;/td&gt;
+&lt;td align="left"&gt;John Ford&lt;/td&gt;
+&lt;td align="right"&gt;8.1&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0056217/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;High Noon&lt;/td&gt;
+&lt;td align="left"&gt;Fred Zinnemann&lt;/td&gt;
+&lt;td align="right"&gt;8.1&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0044706/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Dances with Wolves&lt;/td&gt;
+&lt;td align="left"&gt;Kevin Costner&lt;/td&gt;
+&lt;td align="right"&gt;8.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0099348/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Wild Bunch&lt;/td&gt;
+&lt;td align="left"&gt;Sam Peckinpah&lt;/td&gt;
+&lt;td align="right"&gt;8.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0065214/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3&gt;ТОП10&amp;nbsp;трилерів:&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;uni_movies&lt;span class="o"&gt;$&lt;/span&gt;num_voted_users&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="m"&gt;33160&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="kp"&gt;grepl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Thriller&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; uni_movies&lt;span class="o"&gt;$&lt;/span&gt;genres&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;  select&lt;span class="p"&gt;(&lt;/span&gt;movie_title&lt;span class="p"&gt;,&lt;/span&gt;director_name&lt;span class="p"&gt;,&lt;/span&gt;imdb_score&lt;span class="p"&gt;,&lt;/span&gt;movie_imdb_link&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; arrange&lt;span class="p"&gt;(&lt;/span&gt;desc&lt;span class="p"&gt;(&lt;/span&gt;imdb_score&lt;span class="p"&gt;))&lt;/span&gt;
+
+temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; temp&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,]&lt;/span&gt;
+temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;paste0&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot; [Подивитись на imdb.com](&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+knitr&lt;span class="o"&gt;::&lt;/span&gt;kable&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;movie_title&lt;/th&gt;
+&lt;th align="left"&gt;director_name&lt;/th&gt;
+&lt;th align="right"&gt;imdb_score&lt;/th&gt;
+&lt;th align="left"&gt;movie_imdb_link&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;The Dark Knight&lt;/td&gt;
+&lt;td align="left"&gt;Christopher Nolan&lt;/td&gt;
+&lt;td align="right"&gt;9.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0468569/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Fargo&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;NA&lt;/span&gt;&lt;/td&gt;
+&lt;td align="right"&gt;9.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt2802850/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Inception&lt;/td&gt;
+&lt;td align="left"&gt;Christopher Nolan&lt;/td&gt;
+&lt;td align="right"&gt;8.8&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt1375666/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Daredevil&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;NA&lt;/span&gt;&lt;/td&gt;
+&lt;td align="right"&gt;8.8&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt3322312/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Hannibal&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;NA&lt;/span&gt;&lt;/td&gt;
+&lt;td align="right"&gt;8.6&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt2243973/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Luther&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;NA&lt;/span&gt;&lt;/td&gt;
+&lt;td align="right"&gt;8.6&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt1474684/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Se7en&lt;/td&gt;
+&lt;td align="left"&gt;David Fincher&lt;/td&gt;
+&lt;td align="right"&gt;8.6&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0114369/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Silence of the Lambs&lt;/td&gt;
+&lt;td align="left"&gt;Jonathan Demme&lt;/td&gt;
+&lt;td align="right"&gt;8.6&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0102926/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;The Usual Suspects&lt;/td&gt;
+&lt;td align="left"&gt;Bryan Singer&lt;/td&gt;
+&lt;td align="right"&gt;8.6&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0114814/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Dark Knight Rises&lt;/td&gt;
+&lt;td align="left"&gt;Christopher Nolan&lt;/td&gt;
+&lt;td align="right"&gt;8.5&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt1345836/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3&gt;ТОП10 &amp;#8220;сімейних&amp;#8221;&amp;nbsp;стрічок:&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;uni_movies&lt;span class="o"&gt;$&lt;/span&gt;num_voted_users&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="m"&gt;33160&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="kp"&gt;grepl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Family&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; uni_movies&lt;span class="o"&gt;$&lt;/span&gt;genres&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;  select&lt;span class="p"&gt;(&lt;/span&gt;movie_title&lt;span class="p"&gt;,&lt;/span&gt;director_name&lt;span class="p"&gt;,&lt;/span&gt;imdb_score&lt;span class="p"&gt;,&lt;/span&gt;movie_imdb_link&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; arrange&lt;span class="p"&gt;(&lt;/span&gt;desc&lt;span class="p"&gt;(&lt;/span&gt;imdb_score&lt;span class="p"&gt;))&lt;/span&gt;
+
+temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; temp&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,]&lt;/span&gt;
+temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;paste0&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot; [Подивитись на imdb.com](&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+knitr&lt;span class="o"&gt;::&lt;/span&gt;kable&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;movie_title&lt;/th&gt;
+&lt;th align="left"&gt;director_name&lt;/th&gt;
+&lt;th align="right"&gt;imdb_score&lt;/th&gt;
+&lt;th align="left"&gt;movie_imdb_link&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Spirited Away&lt;/td&gt;
+&lt;td align="left"&gt;Hayao Miyazaki&lt;/td&gt;
+&lt;td align="right"&gt;8.6&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0245429/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;It&amp;#8217;s a Wonderful Life&lt;/td&gt;
+&lt;td align="left"&gt;Frank Capra&lt;/td&gt;
+&lt;td align="right"&gt;8.6&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0038650/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Modern Times&lt;/td&gt;
+&lt;td align="left"&gt;Charles Chaplin&lt;/td&gt;
+&lt;td align="right"&gt;8.6&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0027977/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Lion King&lt;/td&gt;
+&lt;td align="left"&gt;Roger Allers&lt;/td&gt;
+&lt;td align="right"&gt;8.5&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0110357/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;WALL&lt;/span&gt;·E&lt;/td&gt;
+&lt;td align="left"&gt;Andrew Stanton&lt;/td&gt;
+&lt;td align="right"&gt;8.4&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0910970/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Toy Story 3&lt;/td&gt;
+&lt;td align="left"&gt;Lee Unkrich&lt;/td&gt;
+&lt;td align="right"&gt;8.3&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0435761/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Up&lt;/td&gt;
+&lt;td align="left"&gt;Pete Docter&lt;/td&gt;
+&lt;td align="right"&gt;8.3&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt1049413/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Inside Out&lt;/td&gt;
+&lt;td align="left"&gt;Pete Docter&lt;/td&gt;
+&lt;td align="right"&gt;8.3&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt2096673/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Toy Story&lt;/td&gt;
+&lt;td align="left"&gt;John Lasseter&lt;/td&gt;
+&lt;td align="right"&gt;8.3&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0114709/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;How to Train Your Dragon&lt;/td&gt;
+&lt;td align="left"&gt;Dean DeBlois&lt;/td&gt;
+&lt;td align="right"&gt;8.2&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0892769/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3&gt;ТОП10&amp;nbsp;комедій:&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;uni_movies&lt;span class="o"&gt;$&lt;/span&gt;num_voted_users&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="m"&gt;33160&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="kp"&gt;grepl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Comedy&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; uni_movies&lt;span class="o"&gt;$&lt;/span&gt;genres&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;  select&lt;span class="p"&gt;(&lt;/span&gt;movie_title&lt;span class="p"&gt;,&lt;/span&gt;director_name&lt;span class="p"&gt;,&lt;/span&gt;imdb_score&lt;span class="p"&gt;,&lt;/span&gt;movie_imdb_link&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; arrange&lt;span class="p"&gt;(&lt;/span&gt;desc&lt;span class="p"&gt;(&lt;/span&gt;imdb_score&lt;span class="p"&gt;))&lt;/span&gt;
+
+temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; temp&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,]&lt;/span&gt;
+temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;paste0&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot; [Подивитись на imdb.com](&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+knitr&lt;span class="o"&gt;::&lt;/span&gt;kable&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;movie_title&lt;/th&gt;
+&lt;th align="left"&gt;director_name&lt;/th&gt;
+&lt;th align="right"&gt;imdb_score&lt;/th&gt;
+&lt;th align="left"&gt;movie_imdb_link&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Forrest Gump&lt;/td&gt;
+&lt;td align="left"&gt;Robert Zemeckis&lt;/td&gt;
+&lt;td align="right"&gt;8.8&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0109830/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;It&amp;#8217;s Always Sunny in Philadelphia&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;NA&lt;/span&gt;&lt;/td&gt;
+&lt;td align="right"&gt;8.8&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0472954/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Modern Times&lt;/td&gt;
+&lt;td align="left"&gt;Charles Chaplin&lt;/td&gt;
+&lt;td align="right"&gt;8.6&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0027977/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Entourage&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;NA&lt;/span&gt;&lt;/td&gt;
+&lt;td align="right"&gt;8.5&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0387199/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Back to the Future&lt;/td&gt;
+&lt;td align="left"&gt;Robert Zemeckis&lt;/td&gt;
+&lt;td align="right"&gt;8.5&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0088763/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb&lt;/td&gt;
+&lt;td align="left"&gt;Stanley Kubrick&lt;/td&gt;
+&lt;td align="right"&gt;8.5&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0057012/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Amélie&lt;/td&gt;
+&lt;td align="left"&gt;Jean-Pierre Jeunet&lt;/td&gt;
+&lt;td align="right"&gt;8.4&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0211915/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Inbetweeners&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;NA&lt;/span&gt;&lt;/td&gt;
+&lt;td align="right"&gt;8.4&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt1220617/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Rang De Basanti&lt;/td&gt;
+&lt;td align="left"&gt;Rakeysh Omprakash Mehra&lt;/td&gt;
+&lt;td align="right"&gt;8.4&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0405508/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Psych&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;NA&lt;/span&gt;&lt;/td&gt;
+&lt;td align="right"&gt;8.4&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0491738/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3&gt;ТОП10 фільмів&amp;nbsp;жахів:&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;uni_movies&lt;span class="o"&gt;$&lt;/span&gt;num_voted_users&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="m"&gt;33160&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="kp"&gt;grepl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Horror&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; uni_movies&lt;span class="o"&gt;$&lt;/span&gt;genres&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;  select&lt;span class="p"&gt;(&lt;/span&gt;movie_title&lt;span class="p"&gt;,&lt;/span&gt;director_name&lt;span class="p"&gt;,&lt;/span&gt;imdb_score&lt;span class="p"&gt;,&lt;/span&gt;movie_imdb_link&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; arrange&lt;span class="p"&gt;(&lt;/span&gt;desc&lt;span class="p"&gt;(&lt;/span&gt;imdb_score&lt;span class="p"&gt;))&lt;/span&gt;
+
+temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; temp&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,]&lt;/span&gt;
+temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;paste0&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot; [Подивитись на imdb.com](&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+knitr&lt;span class="o"&gt;::&lt;/span&gt;kable&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;movie_title&lt;/th&gt;
+&lt;th align="left"&gt;director_name&lt;/th&gt;
+&lt;th align="right"&gt;imdb_score&lt;/th&gt;
+&lt;th align="left"&gt;movie_imdb_link&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Hannibal&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;NA&lt;/span&gt;&lt;/td&gt;
+&lt;td align="right"&gt;8.6&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt2243973/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Silence of the Lambs&lt;/td&gt;
+&lt;td align="left"&gt;Jonathan Demme&lt;/td&gt;
+&lt;td align="right"&gt;8.6&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0102926/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Psycho&lt;/td&gt;
+&lt;td align="left"&gt;Alfred Hitchcock&lt;/td&gt;
+&lt;td align="right"&gt;8.5&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0054215/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Alien&lt;/td&gt;
+&lt;td align="left"&gt;Ridley Scott&lt;/td&gt;
+&lt;td align="right"&gt;8.5&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0078748/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;The Shining&lt;/td&gt;
+&lt;td align="left"&gt;Stanley Kubrick&lt;/td&gt;
+&lt;td align="right"&gt;8.4&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0081505/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Thing&lt;/td&gt;
+&lt;td align="left"&gt;John Carpenter&lt;/td&gt;
+&lt;td align="right"&gt;8.2&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0084787/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;The Exorcist&lt;/td&gt;
+&lt;td align="left"&gt;William Friedkin&lt;/td&gt;
+&lt;td align="right"&gt;8.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0070047/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Shaun of the Dead&lt;/td&gt;
+&lt;td align="left"&gt;Edgar Wright&lt;/td&gt;
+&lt;td align="right"&gt;8.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0365748/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Night of the Living Dead&lt;/td&gt;
+&lt;td align="left"&gt;George A. Romero&lt;/td&gt;
+&lt;td align="right"&gt;8.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0063350/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Rosemary&amp;#8217;s Baby&lt;/td&gt;
+&lt;td align="left"&gt;Roman Polanski&lt;/td&gt;
+&lt;td align="right"&gt;8.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0063522/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3&gt;ТОП10 &amp;#8220;кримінальних&amp;#8221;&amp;nbsp;фільмів:&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;uni_movies&lt;span class="o"&gt;$&lt;/span&gt;num_voted_users&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="m"&gt;33160&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="kp"&gt;grepl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Crime&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; uni_movies&lt;span class="o"&gt;$&lt;/span&gt;genres&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;  select&lt;span class="p"&gt;(&lt;/span&gt;movie_title&lt;span class="p"&gt;,&lt;/span&gt;director_name&lt;span class="p"&gt;,&lt;/span&gt;imdb_score&lt;span class="p"&gt;,&lt;/span&gt;movie_imdb_link&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; arrange&lt;span class="p"&gt;(&lt;/span&gt;desc&lt;span class="p"&gt;(&lt;/span&gt;imdb_score&lt;span class="p"&gt;))&lt;/span&gt;
+
+temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; temp&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,]&lt;/span&gt;
+temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;paste0&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot; [Подивитись на imdb.com](&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+knitr&lt;span class="o"&gt;::&lt;/span&gt;kable&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;movie_title&lt;/th&gt;
+&lt;th align="left"&gt;director_name&lt;/th&gt;
+&lt;th align="right"&gt;imdb_score&lt;/th&gt;
+&lt;th align="left"&gt;movie_imdb_link&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;The Shawshank Redemption&lt;/td&gt;
+&lt;td align="left"&gt;Frank Darabont&lt;/td&gt;
+&lt;td align="right"&gt;9.3&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0111161/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Godfather&lt;/td&gt;
+&lt;td align="left"&gt;Francis Ford Coppola&lt;/td&gt;
+&lt;td align="right"&gt;9.2&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0068646/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;The Dark Knight&lt;/td&gt;
+&lt;td align="left"&gt;Christopher Nolan&lt;/td&gt;
+&lt;td align="right"&gt;9.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0468569/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Godfather: Part &lt;span class="caps"&gt;II&lt;/span&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Francis Ford Coppola&lt;/td&gt;
+&lt;td align="right"&gt;9.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0071562/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Fargo&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;NA&lt;/span&gt;&lt;/td&gt;
+&lt;td align="right"&gt;9.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt2802850/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Pulp Fiction&lt;/td&gt;
+&lt;td align="left"&gt;Quentin Tarantino&lt;/td&gt;
+&lt;td align="right"&gt;8.9&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0110912/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;12 Angry Men&lt;/td&gt;
+&lt;td align="left"&gt;Sidney Lumet&lt;/td&gt;
+&lt;td align="right"&gt;8.9&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0050083/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Daredevil&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;NA&lt;/span&gt;&lt;/td&gt;
+&lt;td align="right"&gt;8.8&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt3322312/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Goodfellas&lt;/td&gt;
+&lt;td align="left"&gt;Martin Scorsese&lt;/td&gt;
+&lt;td align="right"&gt;8.7&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0099685/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;City of God&lt;/td&gt;
+&lt;td align="left"&gt;Fernando Meirelles&lt;/td&gt;
+&lt;td align="right"&gt;8.7&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0317248/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3&gt;ТОП10 науково-фантастичних&amp;nbsp;фільмів:&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;uni_movies&lt;span class="o"&gt;$&lt;/span&gt;num_voted_users&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="m"&gt;33160&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="kp"&gt;grepl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Sci-Fi&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; uni_movies&lt;span class="o"&gt;$&lt;/span&gt;genres&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;  select&lt;span class="p"&gt;(&lt;/span&gt;movie_title&lt;span class="p"&gt;,&lt;/span&gt;director_name&lt;span class="p"&gt;,&lt;/span&gt;imdb_score&lt;span class="p"&gt;,&lt;/span&gt;movie_imdb_link&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; arrange&lt;span class="p"&gt;(&lt;/span&gt;desc&lt;span class="p"&gt;(&lt;/span&gt;imdb_score&lt;span class="p"&gt;))&lt;/span&gt;
+
+temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; temp&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,]&lt;/span&gt;
+temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;paste0&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot; [Подивитись на imdb.com](&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+knitr&lt;span class="o"&gt;::&lt;/span&gt;kable&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;movie_title&lt;/th&gt;
+&lt;th align="left"&gt;director_name&lt;/th&gt;
+&lt;th align="right"&gt;imdb_score&lt;/th&gt;
+&lt;th align="left"&gt;movie_imdb_link&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Inception&lt;/td&gt;
+&lt;td align="left"&gt;Christopher Nolan&lt;/td&gt;
+&lt;td align="right"&gt;8.8&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt1375666/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Daredevil&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;NA&lt;/span&gt;&lt;/td&gt;
+&lt;td align="right"&gt;8.8&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt3322312/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Star Wars: Episode V - The Empire Strikes Back&lt;/td&gt;
+&lt;td align="left"&gt;Irvin Kershner&lt;/td&gt;
+&lt;td align="right"&gt;8.8&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0080684/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Matrix&lt;/td&gt;
+&lt;td align="left"&gt;Lana Wachowski&lt;/td&gt;
+&lt;td align="right"&gt;8.7&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0133093/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Star Wars: Episode &lt;span class="caps"&gt;IV&lt;/span&gt; - A New Hope&lt;/td&gt;
+&lt;td align="left"&gt;George Lucas&lt;/td&gt;
+&lt;td align="right"&gt;8.7&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0076759/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Interstellar&lt;/td&gt;
+&lt;td align="left"&gt;Christopher Nolan&lt;/td&gt;
+&lt;td align="right"&gt;8.6&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0816692/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Terminator 2: Judgment Day&lt;/td&gt;
+&lt;td align="left"&gt;James Cameron&lt;/td&gt;
+&lt;td align="right"&gt;8.5&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0103064/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Outlander&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;NA&lt;/span&gt;&lt;/td&gt;
+&lt;td align="right"&gt;8.5&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt3006802/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;The Prestige&lt;/td&gt;
+&lt;td align="left"&gt;Christopher Nolan&lt;/td&gt;
+&lt;td align="right"&gt;8.5&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0482571/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Back to the Future&lt;/td&gt;
+&lt;td align="left"&gt;Robert Zemeckis&lt;/td&gt;
+&lt;td align="right"&gt;8.5&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0088763/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;І наостанок, ТОП фільмів по&amp;nbsp;країнах:&lt;/p&gt;
+&lt;h3&gt;ТОП10 іспанських&amp;nbsp;стрічок:&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;uni_movies&lt;span class="o"&gt;$&lt;/span&gt;num_voted_users&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="m"&gt;33160&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="kp"&gt;grepl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Spain&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; uni_movies&lt;span class="o"&gt;$&lt;/span&gt;country&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;  select&lt;span class="p"&gt;(&lt;/span&gt;movie_title&lt;span class="p"&gt;,&lt;/span&gt;director_name&lt;span class="p"&gt;,&lt;/span&gt;imdb_score&lt;span class="p"&gt;,&lt;/span&gt;movie_imdb_link&lt;span class="p"&gt;,&lt;/span&gt;genres&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; arrange&lt;span class="p"&gt;(&lt;/span&gt;desc&lt;span class="p"&gt;(&lt;/span&gt;imdb_score&lt;span class="p"&gt;))&lt;/span&gt;
+
+temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; temp&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,]&lt;/span&gt;
+temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;paste0&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot; [Подивитись на imdb.com](&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+knitr&lt;span class="o"&gt;::&lt;/span&gt;kable&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;movie_title&lt;/th&gt;
+&lt;th align="left"&gt;director_name&lt;/th&gt;
+&lt;th align="right"&gt;imdb_score&lt;/th&gt;
+&lt;th align="left"&gt;movie_imdb_link&lt;/th&gt;
+&lt;th align="left"&gt;genres&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Pan&amp;#8217;s Labyrinth&lt;/td&gt;
+&lt;td align="left"&gt;Guillermo del Toro&lt;/td&gt;
+&lt;td align="right"&gt;8.2&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0457430/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Drama|Fantasy|War&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Sea Inside&lt;/td&gt;
+&lt;td align="left"&gt;Alejandro Amenábar&lt;/td&gt;
+&lt;td align="right"&gt;8.1&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0369702/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Biography|Drama|Romance&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Midnight in Paris&lt;/td&gt;
+&lt;td align="left"&gt;Woody Allen&lt;/td&gt;
+&lt;td align="right"&gt;7.7&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt1605783/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Comedy|Fantasy|Romance&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Machinist&lt;/td&gt;
+&lt;td align="left"&gt;Brad Anderson&lt;/td&gt;
+&lt;td align="right"&gt;7.7&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0361862/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Drama|Thriller&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;The Impossible&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;J.A.&lt;/span&gt; Bayona&lt;/td&gt;
+&lt;td align="right"&gt;7.6&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt1649419/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Drama|Thriller&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Volver&lt;/td&gt;
+&lt;td align="left"&gt;Pedro Almodóvar&lt;/td&gt;
+&lt;td align="right"&gt;7.6&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0441909/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Comedy|Crime|Drama|Mystery&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;The Orphanage&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;J.A.&lt;/span&gt; Bayona&lt;/td&gt;
+&lt;td align="right"&gt;7.5&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0464141/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Drama|Mystery|Thriller&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;[Rec]&lt;/td&gt;
+&lt;td align="left"&gt;Jaume Balagueró&lt;/td&gt;
+&lt;td align="right"&gt;7.5&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt1038988/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Horror&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Agora&lt;/td&gt;
+&lt;td align="left"&gt;Alejandro Amenábar&lt;/td&gt;
+&lt;td align="right"&gt;7.2&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt1186830/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Adventure|Drama|History|Romance&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Vicky Cristina Barcelona&lt;/td&gt;
+&lt;td align="left"&gt;Woody Allen&lt;/td&gt;
+&lt;td align="right"&gt;7.2&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0497465/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Drama|Romance&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3&gt;ТОП10 стрічок&amp;nbsp;Великобританії:&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;uni_movies&lt;span class="o"&gt;$&lt;/span&gt;num_voted_users&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="m"&gt;33160&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="kp"&gt;grepl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;UK&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; uni_movies&lt;span class="o"&gt;$&lt;/span&gt;country&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;  select&lt;span class="p"&gt;(&lt;/span&gt;movie_title&lt;span class="p"&gt;,&lt;/span&gt;director_name&lt;span class="p"&gt;,&lt;/span&gt;imdb_score&lt;span class="p"&gt;,&lt;/span&gt;movie_imdb_link&lt;span class="p"&gt;,&lt;/span&gt;genres&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; arrange&lt;span class="p"&gt;(&lt;/span&gt;desc&lt;span class="p"&gt;(&lt;/span&gt;imdb_score&lt;span class="p"&gt;))&lt;/span&gt;
+
+temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; temp&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,]&lt;/span&gt;
+temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;paste0&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot; [Подивитись на imdb.com](&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+knitr&lt;span class="o"&gt;::&lt;/span&gt;kable&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;movie_title&lt;/th&gt;
+&lt;th align="left"&gt;director_name&lt;/th&gt;
+&lt;th align="right"&gt;imdb_score&lt;/th&gt;
+&lt;th align="left"&gt;movie_imdb_link&lt;/th&gt;
+&lt;th align="left"&gt;genres&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Luther&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;NA&lt;/span&gt;&lt;/td&gt;
+&lt;td align="right"&gt;8.6&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt1474684/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Crime|Drama|Mystery|Thriller&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Alien&lt;/td&gt;
+&lt;td align="left"&gt;Ridley Scott&lt;/td&gt;
+&lt;td align="right"&gt;8.5&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0078748/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Horror|Sci-Fi&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Lawrence of Arabia&lt;/td&gt;
+&lt;td align="left"&gt;David Lean&lt;/td&gt;
+&lt;td align="right"&gt;8.4&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0056172/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Adventure|Biography|Drama|History|War&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Inbetweeners&lt;/td&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;NA&lt;/span&gt;&lt;/td&gt;
+&lt;td align="right"&gt;8.4&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt1220617/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Comedy|Romance&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Snatch&lt;/td&gt;
+&lt;td align="left"&gt;Guy Ritchie&lt;/td&gt;
+&lt;td align="right"&gt;8.3&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0208092/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Comedy|Crime&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;2001: A Space Odyssey&lt;/td&gt;
+&lt;td align="left"&gt;Stanley Kubrick&lt;/td&gt;
+&lt;td align="right"&gt;8.3&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0062622/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Adventure|Mystery|Sci-Fi&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Monty Python and the Holy Grail&lt;/td&gt;
+&lt;td align="left"&gt;Terry Gilliam&lt;/td&gt;
+&lt;td align="right"&gt;8.3&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0071853/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Adventure|Comedy|Fantasy&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Deer Hunter&lt;/td&gt;
+&lt;td align="left"&gt;Michael Cimino&lt;/td&gt;
+&lt;td align="right"&gt;8.2&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0077416/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Drama|War&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Trainspotting&lt;/td&gt;
+&lt;td align="left"&gt;Danny Boyle&lt;/td&gt;
+&lt;td align="right"&gt;8.2&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0117951/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Drama&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Bridge on the River Kwai&lt;/td&gt;
+&lt;td align="left"&gt;David Lean&lt;/td&gt;
+&lt;td align="right"&gt;8.2&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0050212/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Adventure|Drama|War&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3&gt;ТОП10 французських&amp;nbsp;стрічок:&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; uni_movies &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;uni_movies&lt;span class="o"&gt;$&lt;/span&gt;num_voted_users&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="m"&gt;33160&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="kp"&gt;grepl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;France&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; uni_movies&lt;span class="o"&gt;$&lt;/span&gt;country&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;  select&lt;span class="p"&gt;(&lt;/span&gt;movie_title&lt;span class="p"&gt;,&lt;/span&gt;director_name&lt;span class="p"&gt;,&lt;/span&gt;imdb_score&lt;span class="p"&gt;,&lt;/span&gt;movie_imdb_link&lt;span class="p"&gt;,&lt;/span&gt;genres&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; arrange&lt;span class="p"&gt;(&lt;/span&gt;desc&lt;span class="p"&gt;(&lt;/span&gt;imdb_score&lt;span class="p"&gt;))&lt;/span&gt;
+
+temp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; temp&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,]&lt;/span&gt;
+temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;paste0&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot; [Подивитись на imdb.com](&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; temp&lt;span class="o"&gt;$&lt;/span&gt;movie_imdb_link &lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;)&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+knitr&lt;span class="o"&gt;::&lt;/span&gt;kable&lt;span class="p"&gt;(&lt;/span&gt;temp&lt;span class="p"&gt;,&lt;/span&gt; format &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;markdown&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; booktabs&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;table&gt;
+&lt;colgroup&gt;
+&lt;col width="18%" /&gt;
+&lt;col width="10%" /&gt;
+&lt;col width="6%" /&gt;
+&lt;col width="41%" /&gt;
+&lt;col width="23%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr class="header"&gt;
+&lt;th align="left"&gt;movie_title&lt;/th&gt;
+&lt;th align="left"&gt;director_name&lt;/th&gt;
+&lt;th align="right"&gt;imdb_score&lt;/th&gt;
+&lt;th align="left"&gt;movie_imdb_link&lt;/th&gt;
+&lt;th align="left"&gt;genres&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;The Pianist&lt;/td&gt;
+&lt;td align="left"&gt;Roman Polanski&lt;/td&gt;
+&lt;td align="right"&gt;8.5&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0253474/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Biography|Drama|War&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Amélie&lt;/td&gt;
+&lt;td align="left"&gt;Jean-Pierre Jeunet&lt;/td&gt;
+&lt;td align="right"&gt;8.4&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0211915/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Comedy|Romance&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;&lt;span class="caps"&gt;JFK&lt;/span&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Oliver Stone&lt;/td&gt;
+&lt;td align="right"&gt;8.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0102138/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Drama|History|Thriller&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Artist&lt;/td&gt;
+&lt;td align="left"&gt;Michel Hazanavicius&lt;/td&gt;
+&lt;td align="right"&gt;8.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt1655442/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Comedy|Drama|Romance&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Mulholland Drive&lt;/td&gt;
+&lt;td align="left"&gt;David Lynch&lt;/td&gt;
+&lt;td align="right"&gt;8.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0166924/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Drama|Mystery|Thriller&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;The Diving Bell and the Butterfly&lt;/td&gt;
+&lt;td align="left"&gt;Julian Schnabel&lt;/td&gt;
+&lt;td align="right"&gt;8.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0401383/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Biography|Drama&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;The Straight Story&lt;/td&gt;
+&lt;td align="left"&gt;David Lynch&lt;/td&gt;
+&lt;td align="right"&gt;8.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0166896/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Biography|Drama&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Persepolis&lt;/td&gt;
+&lt;td align="left"&gt;Vincent Paronnaud&lt;/td&gt;
+&lt;td align="right"&gt;8.0&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0808417/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Animation|Biography|Drama|War&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="odd"&gt;
+&lt;td align="left"&gt;Taken&lt;/td&gt;
+&lt;td align="left"&gt;Pierre Morel&lt;/td&gt;
+&lt;td align="right"&gt;7.9&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt0936501/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Action|Thriller&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="even"&gt;
+&lt;td align="left"&gt;Amour&lt;/td&gt;
+&lt;td align="left"&gt;Michael Haneke&lt;/td&gt;
+&lt;td align="right"&gt;7.9&lt;/td&gt;
+&lt;td align="left"&gt;&lt;a href="http://www.imdb.com/title/tt1602620/?ref_=fn_tt_tt_1"&gt;Подивитись на imdb.com&lt;/a&gt;&lt;/td&gt;
+&lt;td align="left"&gt;Drama|Romance&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;</content><category term="imdb"></category><category term="vizualization"></category><category term="R"></category></entry><entry><title>Що всередині вашої Google location history? (Частина 2)</title><link href="https://datareview.github.io/google_history2.html" rel="alternate"></link><published>2017-02-10T12:20:00+02:00</published><updated>2017-02-10T12:20:00+02:00</updated><author><name>Oleksandr Kursik</name></author><id>tag:datareview.github.io,2017-02-10:/google_history2.html</id><summary type="html">&lt;p&gt;У &lt;a href="/google_history1.html"&gt;попередній частині&lt;/a&gt; ми подивилися на свою збережену хронологію місцезнаходжень, яку зберігає Google. Сьогодні подивитимся на те, які ж дані і в якому форматі там зберігаються, а також як їх можливо використати. Для цього ми  отримаємо історію своїх переміщень у вигляді окремого файла. Давайте зайдемо в свій Google-account за посиланням …&lt;/p&gt;</summary><content type="html">&lt;p&gt;У &lt;a href="/google_history1.html"&gt;попередній частині&lt;/a&gt; ми подивилися на свою збережену хронологію місцезнаходжень, яку зберігає Google. Сьогодні подивитимся на те, які ж дані і в якому форматі там зберігаються, а також як їх можливо використати. Для цього ми  отримаємо історію своїх переміщень у вигляді окремого файла. Давайте зайдемо в свій Google-account за посиланням &lt;a href="https://takeout.google.com/settings/takeout"&gt;https://takeout.google.com/settings/takeout&lt;/a&gt; та оберемо тільки пункт &amp;#8220;Карти (ваші&amp;nbsp;місця)&amp;#8221;:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="./images/export1.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Потім шукаємо внизу кнопку &amp;quot;Далі&amp;quot;, натискаємо її" src="./images/export2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="І наостанку обираємо формат архіву **&amp;quot;zip&amp;quot;**, розміри архіву та спосіб доставки. Потім натискаємо **&amp;quot;Створити архів&amp;quot;**" src="./images/export3.png"&gt;&lt;/p&gt;
+&lt;p&gt;Google збереже дані у вигляді файла з розширенням &lt;strong&gt;&amp;#8220;.json&amp;#8221;&lt;/strong&gt;. Це один із форматів зберігання даних, на кшалт файлів csv чи xls. Його можна також конвертувати &lt;strong&gt;json&lt;/strong&gt; в &lt;strong&gt;csv&lt;/strong&gt; чи &lt;strong&gt;xls&lt;/strong&gt; і далі працювати з даними, наприклад, у програмі&amp;nbsp;Excel.&lt;/p&gt;
+&lt;p&gt;Я буду працювати з цими даними за допомогою мови програмування R, яка є чудовим інструментом для аналізу та візуалізації. Ви можете повторити ці розрахунки для себе, використовуючи наведений нижче&amp;nbsp;код.&lt;/p&gt;
+&lt;p&gt;Отже&amp;nbsp;почнемо.&lt;/p&gt;
+&lt;h2&gt;Загальна&amp;nbsp;статистика&lt;/h2&gt;
+&lt;p&gt;Спочатку прочитаємо дані. Це можна зробити за допомогою бібліотеки &lt;strong&gt;jsonlite&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;jsonlite&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;plyr&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## Loading required package: plyr
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kp"&gt;system.time&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; fromJSON&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;MyHistory2016.json&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;##    user  system elapsed 
+## 157.980   0.800 159.924
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Файл зчитано, це зайняло майже 5 хвилин у мене. Давайте подивимось, які дані ми маємо в&amp;nbsp;архіві:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# extracting the locations dataframe&lt;/span&gt;
+loc &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; x&lt;span class="o"&gt;$&lt;/span&gt;locations
+&lt;span class="kp"&gt;head&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;loc&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;##     timestampMs latitudeE7 longitudeE7 accuracy
+## 1 1483202768847  504572835   303665397       22
+## 2 1483202542843  504572835   303665397       24
+## 3 1483202274259  504572835   303665397       24
+## 4 1483202241847  504572835   303665397       24
+## 5 1483202083232  504572835   303665397       24
+## 6 1483201993082  504572835   303665397       27
+##                                                activitys velocity altitude
+## 1                              1483202767058, still, 100       NA       NA
+## 2                                                   NULL       NA       NA
+## 3                              1483202401830, still, 100       NA       NA
+## 4                              1483202226817, still, 100       NA       NA
+## 5 1483202084834, 1483202039768, still, 100, tilting, 100       NA       NA
+## 6                              1483201994702, still, 100       NA       NA
+##   heading
+## 1      NA
+## 2      NA
+## 3      NA
+## 4      NA
+## 5      NA
+## 6      NA
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#get column names&lt;/span&gt;
+&lt;span class="kp"&gt;names&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;loc&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## [1] &amp;quot;timestampMs&amp;quot; &amp;quot;latitudeE7&amp;quot;  &amp;quot;longitudeE7&amp;quot; &amp;quot;accuracy&amp;quot;    &amp;quot;activitys&amp;quot;  
+## [6] &amp;quot;velocity&amp;quot;    &amp;quot;altitude&amp;quot;    &amp;quot;heading&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Це таблиця з 8&amp;nbsp;колонок:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;timestampMs - дані щодо дати/часу у форматі &lt;span class="caps"&gt;POSIX&lt;/span&gt;, які ми потім конвертуємо у звичний&amp;nbsp;формат;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;latitudeE7, longitudeE7 - координати місцезнаходження у форматі Е7, які ми також зможемо перевести у &lt;span class="caps"&gt;GPS&lt;/span&gt;-координати;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;accuracy - точність, містить помилку розташування біля точки у &lt;span class="caps"&gt;GPS&lt;/span&gt;-координатах (вимірюється у&amp;nbsp;метрах);&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;activitys - дані щодо діяльності в вказаний момент часу (детальніше трохи&amp;nbsp;згодом);&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;velocity, heading, altitude - швидкість (м/с), напрям, висота (метрів) над рівнем&amp;nbsp;моря.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Далі конвертуємо дані часу, координат та додаємо до таблиці дані про&amp;nbsp;точність:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ldf &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kt"&gt;data.frame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;t&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kp"&gt;rep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="kp"&gt;nrow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;loc&lt;span class="p"&gt;)))&lt;/span&gt;
+
+&lt;span class="c1"&gt;# converting time column from posix milliseconds into a readable time scale&lt;/span&gt;
+ldf&lt;span class="o"&gt;$&lt;/span&gt;time &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;as.POSIXct&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;as.numeric&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;x&lt;span class="o"&gt;$&lt;/span&gt;locations&lt;span class="o"&gt;$&lt;/span&gt;timestampMs&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="m"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; origin &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;1970-01-01&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+ldf&lt;span class="o"&gt;$&lt;/span&gt;date &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;ldf&lt;span class="o"&gt;$&lt;/span&gt;time&lt;span class="p"&gt;,&lt;/span&gt; format &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;%Y-%m-%d&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# converting longitude and latitude from E7 to GPS coordinates&lt;/span&gt;
+ldf&lt;span class="o"&gt;$&lt;/span&gt;lat &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; loc&lt;span class="o"&gt;$&lt;/span&gt;latitudeE7 &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="m"&gt;1e7&lt;/span&gt;
+ldf&lt;span class="o"&gt;$&lt;/span&gt;lon &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; loc&lt;span class="o"&gt;$&lt;/span&gt;longitudeE7 &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="m"&gt;1e7&lt;/span&gt;
+ldf&lt;span class="o"&gt;$&lt;/span&gt;accuracy &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; loc&lt;span class="o"&gt;$&lt;/span&gt;accuracy
+ldf&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="kp"&gt;t&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="kc"&gt;NULL&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Ось так виглядають наші дані&amp;nbsp;тепер:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kp"&gt;head&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;ldf&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;##                  time       date      lat      lon accuracy
+## 1 2016-12-31 18:46:08 2016-12-31 50.45728 30.36654       22
+## 2 2016-12-31 18:42:22 2016-12-31 50.45728 30.36654       24
+## 3 2016-12-31 18:37:54 2016-12-31 50.45728 30.36654       24
+## 4 2016-12-31 18:37:21 2016-12-31 50.45728 30.36654       24
+## 5 2016-12-31 18:34:43 2016-12-31 50.45728 30.36654       24
+## 6 2016-12-31 18:33:13 2016-12-31 50.45728 30.36654       27
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Тепер колонки часу та координат набули звичного для нас вигляду. Саме час розібратися із змістом самої&amp;nbsp;таблиці.&lt;/p&gt;
+&lt;p&gt;Переформуємо дані щодо переміщень (&lt;strong&gt;activitys&lt;/strong&gt;)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# get the most likely activity type and confidence for each time point.&lt;/span&gt;
+act &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; laply&lt;span class="p"&gt;(&lt;/span&gt;loc&lt;span class="o"&gt;$&lt;/span&gt;activitys&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kr"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;f&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="kr"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;is.null&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;f&lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]]))&lt;/span&gt; &lt;span class="kt"&gt;data.frame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;activity&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;NA&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;confidence&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;NA&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;stringsAsFactors&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;F&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kr"&gt;else&lt;/span&gt; &lt;span class="kt"&gt;data.frame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;activity&lt;span class="o"&gt;=&lt;/span&gt;f&lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]][[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]][[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]][&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;confidence&lt;span class="o"&gt;=&lt;/span&gt;f&lt;span class="p"&gt;[[&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]][[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]][[&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]][&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;stringsAsFactors&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;F&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;},&lt;/span&gt;&lt;span class="m"&gt;.&lt;/span&gt;progress&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;none&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# combine activity data with the main dataset&lt;/span&gt;
+ldf&lt;span class="o"&gt;$&lt;/span&gt;activity &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;as.character&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;act&lt;span class="p"&gt;[,&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+ldf&lt;span class="o"&gt;$&lt;/span&gt;confidence &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;as.numeric&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;act&lt;span class="p"&gt;[,&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;activitys&lt;/strong&gt; може бути наступних&amp;nbsp;видів:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;a&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;count&lt;span class="p"&gt;(&lt;/span&gt;ldf&lt;span class="o"&gt;$&lt;/span&gt;activity&lt;span class="p"&gt;)&lt;/span&gt;
+a&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;a&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="kp"&gt;order&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;a&lt;span class="o"&gt;$&lt;/span&gt;freq&lt;span class="p"&gt;),]&lt;/span&gt;
+a
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;##                x    freq
+## 3             NA 1068379
+## 6          still  387711
+## 7        tilting   26614
+## 2      inVehicle   16570
+## 8        unknown   16467
+## 5         onFoot   10979
+## 4      onBicycle     680
+## 1 exitingVehicle     427
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Надалі спробуємо отримати з цих ознак щось&amp;nbsp;путнє.&lt;/p&gt;
+&lt;p&gt;Додаємо дані про швидкість, висоту та напрям&amp;nbsp;руху&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ldf&lt;span class="o"&gt;$&lt;/span&gt;velocity &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; loc&lt;span class="o"&gt;$&lt;/span&gt;velocity&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="m"&gt;3.6&lt;/span&gt;  &lt;span class="c1"&gt;# m/s -&amp;gt; km/h&lt;/span&gt;
+ldf&lt;span class="o"&gt;$&lt;/span&gt;heading &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; loc&lt;span class="o"&gt;$&lt;/span&gt;heading
+ldf&lt;span class="o"&gt;$&lt;/span&gt;altitude &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;loc&lt;span class="o"&gt;$&lt;/span&gt;altitude
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Все, більше інофрмації в Google location history немає, тому збережемо отриманий результат на диск та звільнимо оперативну&amp;nbsp;память&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#save ready data&lt;/span&gt;
+&lt;span class="c1"&gt;# saveRDS(ldf, &amp;quot;./loc_data.rds&amp;quot;)&lt;/span&gt;
+&lt;span class="c1"&gt;# rm(list=ls())&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Які таємниці про користувача сховані у Google location&amp;nbsp;history&lt;/h2&gt;
+&lt;hr&gt;
+&lt;p&gt;Для зручності та більш швидкої обробки давайте розіб&amp;#8217;ємо дані по&amp;nbsp;роках.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ldf&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="kp"&gt;readRDS&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;./loc_data.rds&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+df2013&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;ldf&lt;span class="p"&gt;,&lt;/span&gt;date &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2013-01-01&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; date &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2013-12-31&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+df2014&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;ldf&lt;span class="p"&gt;,&lt;/span&gt;date &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2014-01-01&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; date &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2014-12-31&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+df2015&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;ldf&lt;span class="p"&gt;,&lt;/span&gt;date &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2015-01-01&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; date &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2015-12-31&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+df2016&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="kp"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;ldf&lt;span class="p"&gt;,&lt;/span&gt;date &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2016-01-01&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; date &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="kp"&gt;as.Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;2016-12-31&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;З якого моменту Google слідкував за&amp;nbsp;мною?&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kp"&gt;min&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;ldf&lt;span class="o"&gt;$&lt;/span&gt;time&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## [1] &amp;quot;2012-12-22 16:54:39 EET&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;Отже з 22 грудня 2012 року&amp;nbsp;:)&lt;/strong&gt;&lt;/p&gt;
+&lt;h3&gt;З якою частотою це&amp;nbsp;відбувалось?&lt;/h3&gt;
+&lt;p&gt;Подивимось загальну статистику&amp;nbsp;даних:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;кількість&amp;nbsp;записів&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kp"&gt;nrow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;ldf&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## [1] 1527827
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;час початку та кінцевий відслідковування (слід зауважити, що архів я отримав станом на вечір 31 грудня 2016 року, щоб мати повну статистику ще й за 2016&amp;nbsp;рік)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kp"&gt;min&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;ldf&lt;span class="o"&gt;$&lt;/span&gt;time&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## [1] &amp;quot;2012-12-22 16:54:39 EET&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kp"&gt;max&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;ldf&lt;span class="o"&gt;$&lt;/span&gt;time&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## [1] &amp;quot;2016-12-31 18:46:08 EET&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Всього архів містить 1 527 827 зафіксованих місцезнаходжень з 22-12-2012 до&amp;nbsp;31-12-2016.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;points_p_day &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kt"&gt;data.frame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;table&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;ldf&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="kp"&gt;date&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; group &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;day&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kp"&gt;summary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;points_p_day&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;##          Var1           Freq        group     
+##  2012-12-22:   1   Min.   :   1.0   day:1118  
+##  2012-12-23:   1   1st Qu.: 496.2             
+##  2012-12-24:   1   Median : 765.5             
+##  2012-12-25:   1   Mean   :1366.6             
+##  2012-12-26:   1   3rd Qu.:1437.0             
+##  2012-12-27:   1   Max.   :5928.0             
+##  (Other)   :1112
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;Це 1118 днів, протягом яких частота (Freq) фіксації місцезнаходження коливалась від 1 до 5928 раз на добу. В середньому це склало 1367 раз на добу, 56,91 раз на годину, або майже 1 раз на&amp;nbsp;хвилину.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;* Оскільки між цими двома датами мало би бути 1470 днів, то відповідно інформація про 352 днів була видалена або я забороняв збір даних щодо місцезнаходження. Нічого дивного, бо на той час я ще не сподівався, що буду вивчати своє місцезнаходження за декілька&amp;nbsp;років.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Насправді, інтервал оновлення визначається рівнем заряду батареї, від того рухаєтесь Ви чи ні, як швидко рухаєтесь та деяких інших&amp;nbsp;факторів.&lt;/p&gt;
+&lt;h3&gt;Де я побував, наприклад, в 2014&amp;nbsp;році?&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;ggplot2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;ggmap&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## Loading required package: ggplot2
+## Loading required package: ggmap
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;df&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;df2014
+
+&lt;span class="c1"&gt;# compute the bounding box&lt;/span&gt;
+ldf_bbox &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; make_bbox&lt;span class="p"&gt;(&lt;/span&gt;lat &lt;span class="o"&gt;=&lt;/span&gt; df&lt;span class="o"&gt;$&lt;/span&gt;lat&lt;span class="p"&gt;,&lt;/span&gt; lon &lt;span class="o"&gt;=&lt;/span&gt; df&lt;span class="o"&gt;$&lt;/span&gt;lon&lt;span class="p"&gt;,&lt;/span&gt;f&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0.7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+ldf_big  &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; get_map&lt;span class="p"&gt;(&lt;/span&gt;location &lt;span class="o"&gt;=&lt;/span&gt; ldf_bbox&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kn"&gt;source&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;google&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;maptype &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;roadmap&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; zoom &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+ggmap&lt;span class="p"&gt;(&lt;/span&gt;ldf_big &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; 
+  geom_point&lt;span class="p"&gt;(&lt;/span&gt;data &lt;span class="o"&gt;=&lt;/span&gt; df&lt;span class="p"&gt;,&lt;/span&gt; mapping &lt;span class="o"&gt;=&lt;/span&gt;aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; lon&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; lat&lt;span class="p"&gt;,&lt;/span&gt; color&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;color&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; color &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;red&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## Warning: bounding box given to google - spatial extent only approximate.
+## converting bounding box to center/zoom specification. (experimental)
+## Map from URL : http://maps.googleapis.com/maps/api/staticmap?center=43.093942,27.436017&amp;amp;zoom=5&amp;amp;size=640x640&amp;amp;scale=2&amp;amp;maptype=roadmap&amp;amp;language=en-EN&amp;amp;sensor=false
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="" src="./figure/unnamed-chunk-14-1.png"&gt; &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Червоні позначки на карті показують всі мої координати протягом року. Як видно, в 2014 році я подорожував по Україні та був на острові Крит у&amp;nbsp;Греції.&lt;/strong&gt;&lt;/p&gt;
+&lt;h3&gt;Де я бував у&amp;nbsp;Києві?&lt;/h3&gt;
+&lt;p&gt;Давайте глянемо на мої місцезнаходження у більшому масштабі. Спершу&amp;nbsp;Київ.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;l&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;geocode&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Ukraine, Kyiv&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+region&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;get_googlemap&lt;span class="p"&gt;(&lt;/span&gt;center &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;l&lt;span class="o"&gt;$&lt;/span&gt;lon&lt;span class="p"&gt;,&lt;/span&gt;l&lt;span class="o"&gt;$&lt;/span&gt;lat&lt;span class="p"&gt;),&lt;/span&gt; color &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;color&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;size &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;640&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;640&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;scale &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;zoom &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;11&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+ggmap&lt;span class="p"&gt;(&lt;/span&gt;region&lt;span class="p"&gt;,&lt;/span&gt; extent&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;device&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; 
+  geom_point&lt;span class="p"&gt;(&lt;/span&gt;data &lt;span class="o"&gt;=&lt;/span&gt; df&lt;span class="p"&gt;,&lt;/span&gt; aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; lon&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; lat&lt;span class="p"&gt;,&lt;/span&gt;color &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;color&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; alpha &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## Information from URL : http://maps.googleapis.com/maps/api/geocode/json?address=Ukraine,%20Kyiv&amp;amp;sensor=false
+## Map from URL : http://maps.googleapis.com/maps/api/staticmap?center=50.4501,30.5234&amp;amp;zoom=11&amp;amp;size=640x640&amp;amp;scale=2&amp;amp;maptype=terrain&amp;amp;sensor=false
+## Warning: `panel.margin` is deprecated. Please use `panel.spacing` property
+## instead
+## Warning: Removed 23604 rows containing missing values (geom_point).
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="" src="./figure/unnamed-chunk-15-1.png"&gt; &lt;/p&gt;
+&lt;p&gt;Добре видно, що більшість моїх місцеперебувань знаходилися на правому березі Дніпра, на лівому фактично лише окремі точки. Щоб отримати більш виразну картину, давайте змінимо колір точки перебування в залежності від швидкості, таким чином буде видно чи я просто проїзджав місцевість чи, можливо, знаходився там більш довгий&amp;nbsp;час.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;df&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;df&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="kp"&gt;which&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="kp"&gt;is.na&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;df&lt;span class="o"&gt;$&lt;/span&gt;velocity&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+
+ggmap&lt;span class="p"&gt;(&lt;/span&gt;region&lt;span class="p"&gt;,&lt;/span&gt; extent&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;device&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; 
+  geom_point&lt;span class="p"&gt;(&lt;/span&gt;data &lt;span class="o"&gt;=&lt;/span&gt; df&lt;span class="p"&gt;,&lt;/span&gt; aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; lon&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; lat&lt;span class="p"&gt;,&lt;/span&gt; color&lt;span class="o"&gt;=&lt;/span&gt;velocity&lt;span class="p"&gt;),&lt;/span&gt; alpha &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;
+  theme&lt;span class="p"&gt;(&lt;/span&gt;legend.position &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;right&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; 
+  labs&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Longitude&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Latitude&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+       title &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Location history data points in Kyiv&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+       subtitle &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Color scale shows velocity measured for location&amp;quot;&lt;/span&gt;
+       &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  scale_colour_gradient&lt;span class="p"&gt;(&lt;/span&gt;low &lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;blue&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; high &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;red&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; guide &lt;span class="o"&gt;=&lt;/span&gt; guide_legend&lt;span class="p"&gt;(&lt;/span&gt;title &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Velocity, km/h&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## Warning: `panel.margin` is deprecated. Please use `panel.spacing` property
+## instead
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="" src="./figure/unnamed-chunk-16-1.png"&gt;        &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Точки з синім кольором показують місця, де я на протязі року знаходився найдовше. Це дім, робота&amp;nbsp;etc.&lt;/strong&gt;&lt;/p&gt;
+&lt;h3&gt;Де я бував у&amp;nbsp;Львові?&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;df&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;df2014
+l&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;geocode&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Ukraine, Lviv&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+region&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;get_googlemap&lt;span class="p"&gt;(&lt;/span&gt;center &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;l&lt;span class="o"&gt;$&lt;/span&gt;lon&lt;span class="p"&gt;,&lt;/span&gt;l&lt;span class="o"&gt;$&lt;/span&gt;lat&lt;span class="p"&gt;),&lt;/span&gt; color &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;color&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;size &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;640&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;640&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;scale &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;zoom &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;11&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+ggmap&lt;span class="p"&gt;(&lt;/span&gt;region&lt;span class="p"&gt;,&lt;/span&gt;extent&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;device&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; geom_point&lt;span class="p"&gt;(&lt;/span&gt;data &lt;span class="o"&gt;=&lt;/span&gt; df&lt;span class="p"&gt;,&lt;/span&gt; aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; lon&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; lat&lt;span class="p"&gt;,&lt;/span&gt; color&lt;span class="o"&gt;=&lt;/span&gt;velocity&lt;span class="p"&gt;),&lt;/span&gt; alpha &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; color &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;red&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## Information from URL : http://maps.googleapis.com/maps/api/geocode/json?address=Ukraine,%20Lviv&amp;amp;sensor=false
+## Map from URL : http://maps.googleapis.com/maps/api/staticmap?center=49.839683,24.029717&amp;amp;zoom=11&amp;amp;size=640x640&amp;amp;scale=2&amp;amp;maptype=terrain&amp;amp;sensor=false
+## Warning: `panel.margin` is deprecated. Please use `panel.spacing` property
+## instead
+## Warning: Removed 194024 rows containing missing values (geom_point).
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="" src="./figure/unnamed-chunk-17-1.png"&gt;&lt;/p&gt;
+&lt;h3&gt;Де я бував у&amp;nbsp;Греції?&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;l&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;geocode&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Greece, Crete&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+region&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;get_googlemap&lt;span class="p"&gt;(&lt;/span&gt;center &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;l&lt;span class="o"&gt;$&lt;/span&gt;lon&lt;span class="p"&gt;,&lt;/span&gt;l&lt;span class="o"&gt;$&lt;/span&gt;lat&lt;span class="p"&gt;),&lt;/span&gt; color &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;color&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;size &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;640&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;640&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;scale &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;zoom &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+ggmap&lt;span class="p"&gt;(&lt;/span&gt;region&lt;span class="p"&gt;,&lt;/span&gt;extent&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;device&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; geom_point&lt;span class="p"&gt;(&lt;/span&gt;data &lt;span class="o"&gt;=&lt;/span&gt; df&lt;span class="p"&gt;,&lt;/span&gt; aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; lon&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; lat&lt;span class="p"&gt;),&lt;/span&gt; alpha &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; color &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;red&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;
+  theme&lt;span class="p"&gt;(&lt;/span&gt;legend.position &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;right&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+  labs&lt;span class="p"&gt;(&lt;/span&gt;
+    x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    y &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    title &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Location history data points in Greece 2014&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## Information from URL : http://maps.googleapis.com/maps/api/geocode/json?address=Greece,%20Crete&amp;amp;sensor=false
+## Map from URL : http://maps.googleapis.com/maps/api/staticmap?center=35.240117,24.809269&amp;amp;zoom=8&amp;amp;size=640x640&amp;amp;scale=2&amp;amp;maptype=terrain&amp;amp;sensor=false
+## Warning: `panel.margin` is deprecated. Please use `panel.spacing` property
+## instead
+## Warning: Removed 202813 rows containing missing values (geom_point).
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="" src="./figure/unnamed-chunk-18-1.png"&gt;&lt;/p&gt;
+&lt;h3&gt;Що показує параметр &amp;#8220;activity&amp;#8221;&amp;nbsp;?&lt;/h3&gt;
+&lt;p&gt;Google визначає для кожної пари координат яким чином пересувався об&amp;#8217;єкт і якщо активність позначити кольором (так само як я зробив для швидкості), то можливо побачити на карті найбільш частий для конкретної точки тип&amp;nbsp;активністі.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;df&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;df2014
+df&lt;span class="o"&gt;$&lt;/span&gt;activity&lt;span class="p"&gt;[&lt;/span&gt;df&lt;span class="o"&gt;$&lt;/span&gt;activity&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;NA&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;NA&lt;/span&gt;
+df&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;df&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="kp"&gt;which&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="kp"&gt;is.na&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;df&lt;span class="o"&gt;$&lt;/span&gt;activity&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
+
+df&lt;span class="o"&gt;$&lt;/span&gt;activtype&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="kp"&gt;as.factor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;df&lt;span class="o"&gt;$&lt;/span&gt;activity&lt;span class="p"&gt;)&lt;/span&gt;
+a&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;count&lt;span class="p"&gt;(&lt;/span&gt;df&lt;span class="o"&gt;$&lt;/span&gt;activity&lt;span class="p"&gt;)&lt;/span&gt;
+a&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;a&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="kp"&gt;order&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;a&lt;span class="o"&gt;$&lt;/span&gt;freq&lt;span class="p"&gt;),]&lt;/span&gt;
+a
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;##                x   freq
+## 5          still 123901
+## 6        tilting   8014
+## 2      inVehicle   4013
+## 7        unknown   3760
+## 4         onFoot    733
+## 1 exitingVehicle     58
+## 3      onBicycle     46
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;still - об&amp;#8217;єкт знаходився на&amp;nbsp;місці&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;tilting - об&amp;#8217;єкт&amp;nbsp;повертає&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;inVehicle - об&amp;#8217;єкт рухається в&amp;nbsp;транспорті&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;unknown - невідомий вид&amp;nbsp;активності&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;onFoot - об&amp;#8217;єкт йде&amp;nbsp;пішки&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;onBicycle - об&amp;#8217;єкт рухається на&amp;nbsp;велосипеді&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;exitingVehicle - об&amp;#8217;єкт залишає траспортний&amp;nbsp;засіб&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;l&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;geocode&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Ukraine, Kyiv&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+region&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;get_googlemap&lt;span class="p"&gt;(&lt;/span&gt;center &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;l&lt;span class="o"&gt;$&lt;/span&gt;lon&lt;span class="p"&gt;,&lt;/span&gt;l&lt;span class="o"&gt;$&lt;/span&gt;lat&lt;span class="p"&gt;),&lt;/span&gt; color &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;color&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;size &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;640&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;640&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;scale &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;zoom &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;11&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+colors &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; colorRampPalette&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;blue&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;yellow&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;red&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))(&lt;/span&gt;&lt;span class="kp"&gt;length&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;levels&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;df&lt;span class="o"&gt;$&lt;/span&gt;activtype&lt;span class="p"&gt;)))&lt;/span&gt;
+
+colors
+
+ggmap&lt;span class="p"&gt;(&lt;/span&gt;region&lt;span class="p"&gt;,&lt;/span&gt; extent&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;device&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; 
+  geom_point&lt;span class="p"&gt;(&lt;/span&gt;data &lt;span class="o"&gt;=&lt;/span&gt; df&lt;span class="p"&gt;,&lt;/span&gt; aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; lon&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; lat&lt;span class="p"&gt;,&lt;/span&gt; color&lt;span class="o"&gt;=&lt;/span&gt;df&lt;span class="o"&gt;$&lt;/span&gt;activtype&lt;span class="p"&gt;),&lt;/span&gt; alpha &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;
+  theme&lt;span class="p"&gt;(&lt;/span&gt;legend.position &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;right&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; 
+  labs&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Longitude&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; y &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Latitude&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+       title &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Location history data points in Kyiv&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+       subtitle &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Color scale shows velocity measured for location&amp;quot;&lt;/span&gt;
+       &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+   scale_fill_manual&lt;span class="p"&gt;(&lt;/span&gt;values&lt;span class="o"&gt;=&lt;/span&gt;setNames&lt;span class="p"&gt;(&lt;/span&gt;colors&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kp"&gt;levels&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;df&lt;span class="o"&gt;$&lt;/span&gt;activtype&lt;span class="p"&gt;)))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## Information from URL : http://maps.googleapis.com/maps/api/geocode/json?address=Ukraine,%20Kyiv&amp;amp;sensor=false
+## Map from URL : http://maps.googleapis.com/maps/api/staticmap?center=50.4501,30.5234&amp;amp;zoom=11&amp;amp;size=640x640&amp;amp;scale=2&amp;amp;maptype=terrain&amp;amp;sensor=false
+## [1] &amp;quot;#0000FF&amp;quot; &amp;quot;#5555AA&amp;quot; &amp;quot;#AAAA55&amp;quot; &amp;quot;#FFFF00&amp;quot; &amp;quot;#FFAA00&amp;quot; &amp;quot;#FF5500&amp;quot; &amp;quot;#FF0000&amp;quot;
+## Warning: `panel.margin` is deprecated. Please use `panel.spacing` property
+## instead
+## Warning: Removed 13491 rows containing missing values (geom_point).
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="" src="./figure/unnamed-chunk-20-1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Наостанку зробимо частотний розподіл активності за 2014&amp;nbsp;рік.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ggplot&lt;span class="p"&gt;(&lt;/span&gt;df&lt;span class="p"&gt;,&lt;/span&gt; aes&lt;span class="p"&gt;(&lt;/span&gt;x &lt;span class="o"&gt;=&lt;/span&gt; df&lt;span class="o"&gt;$&lt;/span&gt;activity&lt;span class="p"&gt;,&lt;/span&gt; group &lt;span class="o"&gt;=&lt;/span&gt; activity&lt;span class="p"&gt;,&lt;/span&gt; fill &lt;span class="o"&gt;=&lt;/span&gt; activtype&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; 
+  geom_bar&lt;span class="p"&gt;()&lt;/span&gt;  &lt;span class="o"&gt;+&lt;/span&gt; 
+  guides&lt;span class="p"&gt;(&lt;/span&gt;fill &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;FALSE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+   labs&lt;span class="p"&gt;(&lt;/span&gt;
+    x &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    y &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Count&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    title &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Main activities in 2014&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    caption &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Associated activity for recorded positions in 2014. &lt;/span&gt;
+&lt;span class="s"&gt;    Because Google records activity probabilities for each position, &lt;/span&gt;
+&lt;span class="s"&gt;    only the activity with highest likelihood were chosen for each position.&amp;quot;&lt;/span&gt;
+  &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="" src="/figure/unnamed-chunk-21-1.png"&gt; &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Як видно з діаграми, більшість часу я знаходився у якомусь місці, а коли рухався, то пересувався на авто.&lt;/strong&gt; 
+До речі, на велосипеді я не пересувався зовсім, це скорше інформація з транспортних заторів, в які я&amp;nbsp;попадав.&lt;/p&gt;
+&lt;p&gt;Наостанку інформація про сесію&amp;nbsp;R-Studio.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sessionInfo&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;## R version 3.2.3 (2015-12-10)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 16.04.2 LTS
+## 
+## locale:
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=uk_UA.UTF-8        LC_COLLATE=en_US.UTF-8    
+##  [5] LC_MONETARY=uk_UA.UTF-8    LC_MESSAGES=en_US.UTF-8   
+##  [7] LC_PAPER=uk_UA.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=uk_UA.UTF-8 LC_IDENTIFICATION=C       
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] ggmap_2.6.1    ggplot2_2.2.1  plyr_1.8.4     jsonlite_1.2  
+## [5] markdown_0.7.7 knitr_1.15.1  
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.9       magrittr_1.5      maps_3.1.1       
+##  [4] munsell_0.4.3     lattice_0.20-33   geosphere_1.5-5  
+##  [7] colorspace_1.3-2  rjson_0.2.15      jpeg_0.1-8       
+## [10] stringr_1.1.0     tools_3.2.3       grid_3.2.3       
+## [13] gtable_0.2.0      png_0.1-7         htmltools_0.3.5  
+## [16] yaml_2.1.14       lazyeval_0.2.0    rprojroot_1.2    
+## [19] digest_0.6.12     assertthat_0.1    tibble_1.2       
+## [22] reshape2_1.4.2    mapproj_1.2-4     evaluate_0.10    
+## [25] rmarkdown_1.3     labeling_0.3      sp_1.2-4         
+## [28] stringi_1.1.2     RgoogleMaps_1.4.1 scales_0.4.1     
+## [31] backports_1.0.5   proto_1.0.0
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Коротко: що знає про наше місцерозташування Google, якщо ми користуємся смартфоном з обліковим записом Google та дозволили збирати інформацію про&amp;nbsp;місцезнаходження?&lt;/h2&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;- Координати у часі та просторі з періодом в середньому один раз на хвилину, а також тип переміщення (активності) для конкретної&amp;nbsp;точки.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;sub&gt;* - що стосується точності для координат - вона залежить від того, у який спосіб визначалось місцерозташування. Існує два провайдера координат для мобіьного телефону: &lt;span class="caps"&gt;GPS&lt;/span&gt; и Network. &lt;span class="caps"&gt;GPS&lt;/span&gt; – це дані із &lt;span class="caps"&gt;GPS&lt;/span&gt;-супутників.Network – це координати, які можна отримати через мобільну мережу чи WiFi.
+Орієнтовно, цифри похибки приблизно такі:
+-   gps ~ 15 м
+-   WiFi - залежить від розташування точок WiFi, за умови їх наявності ~ 20-30 м.
+-   Координати, отримані від мобільної мережі, залежать від розташування &lt;span class="caps"&gt;GSM&lt;/span&gt;-станцій, орієнтовна цифра похибки ~1500 м &lt;/sub&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;- Швидкість переміщення, висоту над рівнем моря та напрямок&amp;nbsp;руху.&lt;/strong&gt;&lt;/p&gt;
+&lt;h2&gt;Висновки&lt;/h2&gt;
+&lt;p&gt;Стосовно себе, я вважаю, що функція Google location history скоріш корисна, аніж шкідлива. Я із задоволенням пригадав, де мені прийшлось побувати за останні кілька років. Також хочу сказати, що пошкодував, що в мене немає частини моєї історії місцезнаходження і в майбутньому не планую виключати цю опцію в&amp;nbsp;телефоні.&lt;/p&gt;
+&lt;p&gt;Проте, якщо подібна інформація попаде до сторонніх осіб, вони можуть&amp;nbsp;взнати:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;місце проживання, тобто де Ви у більшості часу знаходились&amp;nbsp;вночі,&lt;/li&gt;
+&lt;li&gt;місце роботи чи перебуванння&amp;nbsp;вдень, &lt;/li&gt;
+&lt;li&gt;інші популярні місця, наприклад де Ви буваєте по&amp;nbsp;вихідним,&lt;/li&gt;
+&lt;li&gt;швидкість пересування ( відповідно, вид&amp;nbsp;транспорту),&lt;/li&gt;
+&lt;li&gt;відділення банків, магазинів і т.п., в яких Ви зазвичай&amp;nbsp;буваєте.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Доповнивши дані інформацією з інших джерел по людині можливо взнати практично все. Але це вже зовсім інша історія про дані. Залишається сподіватися, що Google location history може попасти до чужих рук тільки якщо Ваш акаунт зламають. А щоб цього не відбулось - регулярно міняйте паролі та увімкніть двохфакторну&amp;nbsp;аутентифікацію.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;При написанні було використано наступні&amp;nbsp;матеріали:&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://www.r-bloggers.com/how-to-map-your-google-location-history-with-r/"&gt;How to map your Google location history with R&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://beneathdata.com/how-to/visualizing-my-location-history/"&gt;Visualizing My Location History with Python, Shapely, and&amp;nbsp;Basemap&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://rstudio-pubs-static.s3.amazonaws.com/60451_b3ba24cd0e854af491cb7e6816164a69.html"&gt;My Google Location&amp;nbsp;Data&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div id="disqus_thread"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://datareview.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href="https://disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;</content><category term="google location"></category><category term="google history"></category><category term="vizualization"></category><category term="R"></category></entry><entry><title>Що всередині вашої Google location history? (Частина 1)</title><link href="https://datareview.github.io/google_history1.html" rel="alternate"></link><published>2017-02-09T10:20:00+02:00</published><updated>2017-02-09T10:20:00+02:00</updated><author><name>Oleksandr Kursik</name></author><id>tag:datareview.github.io,2017-02-09:/google_history1.html</id><summary type="html">&lt;p&gt;Практично в усіх зараз є мобільний телефон, дехто має навіть декілька. Значна частина користувачів мобільного зв&amp;#8217;язку має смартфон, та, скоріш за все, має і обліковий запис Google, в якому зберігаються контакти.  І якщо у вас на смартфоні дозволена передача даних про місцезнаходження, то Google зберігає у себе ваше розташування …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Практично в усіх зараз є мобільний телефон, дехто має навіть декілька. Значна частина користувачів мобільного зв&amp;#8217;язку має смартфон, та, скоріш за все, має і обліковий запис Google, в якому зберігаються контакти.  І якщо у вас на смартфоні дозволена передача даних про місцезнаходження, то Google зберігає у себе ваше розташування (принаймні, дуже хочу сподіватись, що це робиться тільки якщо ми&amp;nbsp;дозволили). &lt;/p&gt;
+&lt;p&gt;В цій частині допису буде показано, як подивитись, що там збережено. У продовженні ми спробуємо більш детально розібратися, які ж дані та в якому форматі зберігаються, а також яку інформацію з них можливо&amp;nbsp;видобути.&lt;/p&gt;
+&lt;p&gt;Спочатку давайте зайдемо в свій Google-акаунт. 
+&lt;img alt="" src="./images/googlehistory0.png"&gt;&lt;/p&gt;
+&lt;p&gt;Далі ми можемо отримати історію своїх переміщень за посиланням &lt;a href="https://www.google.com.ua/maps/timeline"&gt;https://www.google.com.ua/maps/timeline&lt;/a&gt;&amp;nbsp;:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="./images/googlehistory1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Карта показує (червоні крапки) всі мої місезнаходження з моменту, коли я ввімкнув дозвіл на зберігання моєї історії місцезнаходжень по сьогоднішній день. Також є змога задати період, що показується в лівому верхньому куті. Там можна вказати рік, місяць та день. Наприклад на цьому скріншоті я вказав весь 2014&amp;nbsp;рік:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="./images/googlehistory2.png"&gt;&lt;/p&gt;
+&lt;p&gt;Якщо ми виберемо конкретний день, то побачимо більш детальний маршрут за цей&amp;nbsp;день:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="./images/googlehistory3.png"&gt;&lt;/p&gt;
+&lt;p&gt;На данному етапі ми бачимо що Google запам&amp;#8217;ятовує наші координати, за умови що така дія була йому дозволена. Якщо такого дозволу не було чи ми видалили історію місцезнаходження - ми побачимо просто &amp;#8220;пусту&amp;#8221;&amp;nbsp;карту. &lt;/p&gt;
+&lt;p&gt;В &lt;a href="/google_history2.html"&gt;наступному дописі&lt;/a&gt; ми заглянемо глибше у дані щодо місцезнаходження і подивимось, яку ще інформацію можна звідти&amp;nbsp;отримати.&lt;/p&gt;
+&lt;div id="disqus_thread"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/**
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = {Slug}; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://datareview.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+&lt;/script&gt;
+
+&lt;noscript&gt;Please enable JavaScript to view the &lt;a href="https://disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;&lt;/noscript&gt;</content><category term="google location"></category><category term="google history"></category><category term="vizualization"></category><category term="R"></category></entry></feed>

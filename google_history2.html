@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>Що всередині вашої Google location history? (Частина 2) - DataStories</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="https://datareview.github.io/images/favicon.ico" rel="icon">
+
+<link rel="canonical" href="https://datareview.github.io/google_history2.html">
+
+        <meta name="author" content="Oleksandr Kursik" />
+        <meta name="keywords" content="google location,google history,vizualization,R" />
+        <meta name="description" content="У попередній частині ми подивилися на свою збережену хронологію місцезнаходжень, яку зберігає Google. Сьогодні подивитимся на те, які ж дані і в якому форматі там зберігаються, а також як їх можливо використати. Для цього ми отримаємо історію своїх переміщень у вигляді окремого файла. Давайте зайдемо в свій Google-account за посиланням …" />
+
+        <meta property="og:site_name" content="DataStories" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Що всередині вашої Google location history? (Частина 2)"/>
+        <meta property="og:url" content="https://datareview.github.io/google_history2.html"/>
+        <meta property="og:description" content="У попередній частині ми подивилися на свою збережену хронологію місцезнаходжень, яку зберігає Google. Сьогодні подивитимся на те, які ж дані і в якому форматі там зберігаються, а також як їх можливо використати. Для цього ми отримаємо історію своїх переміщень у вигляді окремого файла. Давайте зайдемо в свій Google-account за посиланням …"/>
+        <meta property="article:published_time" content="2017-02-10" />
+            <meta property="article:section" content="R" />
+            <meta property="article:tag" content="google location" />
+            <meta property="article:tag" content="google history" />
+            <meta property="article:tag" content="vizualization" />
+            <meta property="article:tag" content="R" />
+            <meta property="article:author" content="Oleksandr Kursik" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://datareview.github.io/theme/css/bootstrap.cerulean.min.css" type="text/css"/>
+    <link href="https://datareview.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://datareview.github.io/theme/css/pygments/zenburn.css" rel="stylesheet">
+        <link href="https://datareview.github.io/theme/css/typogrify.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://datareview.github.io/theme/css/style.css" type="text/css"/>
+        <link href="https://datareview.github.io/static/custom.css" rel="stylesheet">
+
+        <link href="https://datareview.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="DataStories ATOM Feed"/>
+
+
+
+        <link href="https://datareview.github.io/feeds/r.atom.xml" type="application/atom+xml" rel="alternate"
+              title="DataStories R ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="https://datareview.github.io/" class="navbar-brand">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                    <li><a href="/">Блог</a></li>
+                    <li><a href="/pages/about.html">Про мене</a></li>
+                    <li><a href="/pages/contact.html">Контакти</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<style>
+	#banner{
+	    background-image:url("https://datareview.github.io/images/blue-computer-business-background-header.jpg");
+	}
+</style>
+
+<div id="banner">
+	<div class="container">
+		<div class="copy">
+			<h1>DataStories</h1>
+		</div>
+	</div>
+</div><!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <ol class="breadcrumb">
+                <li><a href="https://datareview.github.io" title="DataStories"><i class="fa fa-home fa-lg"></i></a></li>
+                <li><a href="https://datareview.github.io/category/r.html" title="R">R</a></li>
+                <li class="active">Що всередині вашої Google location history? (Частина&nbsp;2)</li>
+            </ol>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="https://datareview.github.io/google_history2.html"
+                       rel="bookmark"
+                       title="Permalink to Що всередині вашої Google location history? (Частина 2)">
+                        Що всередині вашої Google location history? (Частина&nbsp;2)
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2017-02-10T12:20:00+02:00"> Fri 10 February 2017</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="https://datareview.github.io/tag/google-location.html">google location</a>
+        /
+	<a href="https://datareview.github.io/tag/google-history.html">google history</a>
+        /
+	<a href="https://datareview.github.io/tag/vizualization.html">vizualization</a>
+        /
+	<a href="https://datareview.github.io/tag/r.html">R</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>У <a href="/google_history1.html">попередній частині</a> ми подивилися на свою збережену хронологію місцезнаходжень, яку зберігає Google. Сьогодні подивитимся на те, які ж дані і в якому форматі там зберігаються, а також як їх можливо використати. Для цього ми  отримаємо історію своїх переміщень у вигляді окремого файла. Давайте зайдемо в свій Google-account за посиланням <a href="https://takeout.google.com/settings/takeout">https://takeout.google.com/settings/takeout</a> та оберемо тільки пункт &#8220;Карти (ваші&nbsp;місця)&#8221;:</p>
+<p><img alt="" src="./images/export1.jpg"></p>
+<p><img alt="Потім шукаємо внизу кнопку &quot;Далі&quot;, натискаємо її" src="./images/export2.png"></p>
+<p><img alt="І наостанку обираємо формат архіву **&quot;zip&quot;**, розміри архіву та спосіб доставки. Потім натискаємо **&quot;Створити архів&quot;**" src="./images/export3.png"></p>
+<p>Google збереже дані у вигляді файла з розширенням <strong>&#8220;.json&#8221;</strong>. Це один із форматів зберігання даних, на кшалт файлів csv чи xls. Його можна також конвертувати <strong>json</strong> в <strong>csv</strong> чи <strong>xls</strong> і далі працювати з даними, наприклад, у програмі&nbsp;Excel.</p>
+<p>Я буду працювати з цими даними за допомогою мови програмування R, яка є чудовим інструментом для аналізу та візуалізації. Ви можете повторити ці розрахунки для себе, використовуючи наведений нижче&nbsp;код.</p>
+<p>Отже&nbsp;почнемо.</p>
+<h2>Загальна&nbsp;статистика</h2>
+<p>Спочатку прочитаємо дані. Це можна зробити за допомогою бібліотеки <strong>jsonlite</strong></p>
+<div class="highlight"><pre><span></span><span class="kn">library</span><span class="p">(</span>jsonlite<span class="p">)</span>
+<span class="kn">require</span><span class="p">(</span>plyr<span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>## Loading required package: plyr
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="kp">system.time</span><span class="p">(</span>x <span class="o">&lt;-</span> fromJSON<span class="p">(</span><span class="s">&quot;MyHistory2016.json&quot;</span><span class="p">))</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>##    user  system elapsed 
+## 157.980   0.800 159.924
+</pre></div>
+
+
+<p>Файл зчитано, це зайняло майже 5 хвилин у мене. Давайте подивимось, які дані ми маємо в&nbsp;архіві:</p>
+<div class="highlight"><pre><span></span><span class="c1"># extracting the locations dataframe</span>
+loc <span class="o">&lt;-</span> x<span class="o">$</span>locations
+<span class="kp">head</span><span class="p">(</span>loc<span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>##     timestampMs latitudeE7 longitudeE7 accuracy
+## 1 1483202768847  504572835   303665397       22
+## 2 1483202542843  504572835   303665397       24
+## 3 1483202274259  504572835   303665397       24
+## 4 1483202241847  504572835   303665397       24
+## 5 1483202083232  504572835   303665397       24
+## 6 1483201993082  504572835   303665397       27
+##                                                activitys velocity altitude
+## 1                              1483202767058, still, 100       NA       NA
+## 2                                                   NULL       NA       NA
+## 3                              1483202401830, still, 100       NA       NA
+## 4                              1483202226817, still, 100       NA       NA
+## 5 1483202084834, 1483202039768, still, 100, tilting, 100       NA       NA
+## 6                              1483201994702, still, 100       NA       NA
+##   heading
+## 1      NA
+## 2      NA
+## 3      NA
+## 4      NA
+## 5      NA
+## 6      NA
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1">#get column names</span>
+<span class="kp">names</span><span class="p">(</span>loc<span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>## [1] &quot;timestampMs&quot; &quot;latitudeE7&quot;  &quot;longitudeE7&quot; &quot;accuracy&quot;    &quot;activitys&quot;  
+## [6] &quot;velocity&quot;    &quot;altitude&quot;    &quot;heading&quot;
+</pre></div>
+
+
+<p>Це таблиця з 8&nbsp;колонок:</p>
+<ul>
+<li>
+<p>timestampMs - дані щодо дати/часу у форматі <span class="caps">POSIX</span>, які ми потім конвертуємо у звичний&nbsp;формат;</p>
+</li>
+<li>
+<p>latitudeE7, longitudeE7 - координати місцезнаходження у форматі Е7, які ми також зможемо перевести у <span class="caps">GPS</span>-координати;</p>
+</li>
+<li>
+<p>accuracy - точність, містить помилку розташування біля точки у <span class="caps">GPS</span>-координатах (вимірюється у&nbsp;метрах);</p>
+</li>
+<li>
+<p>activitys - дані щодо діяльності в вказаний момент часу (детальніше трохи&nbsp;згодом);</p>
+</li>
+<li>
+<p>velocity, heading, altitude - швидкість (м/с), напрям, висота (метрів) над рівнем&nbsp;моря.</p>
+</li>
+</ul>
+<p>Далі конвертуємо дані часу, координат та додаємо до таблиці дані про&nbsp;точність:</p>
+<div class="highlight"><pre><span></span>ldf <span class="o">&lt;-</span> <span class="kt">data.frame</span><span class="p">(</span>t<span class="o">=</span><span class="kp">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="kp">nrow</span><span class="p">(</span>loc<span class="p">)))</span>
+
+<span class="c1"># converting time column from posix milliseconds into a readable time scale</span>
+ldf<span class="o">$</span>time <span class="o">&lt;-</span> <span class="kp">as.POSIXct</span><span class="p">(</span><span class="kp">as.numeric</span><span class="p">(</span>x<span class="o">$</span>locations<span class="o">$</span>timestampMs<span class="p">)</span><span class="o">/</span><span class="m">1000</span><span class="p">,</span> origin <span class="o">=</span> <span class="s">&quot;1970-01-01&quot;</span><span class="p">)</span>
+ldf<span class="o">$</span>date <span class="o">&lt;-</span> <span class="kp">as.Date</span><span class="p">(</span>ldf<span class="o">$</span>time<span class="p">,</span> format <span class="o">=</span> <span class="s">&quot;%Y-%m-%d&quot;</span><span class="p">)</span>
+
+<span class="c1"># converting longitude and latitude from E7 to GPS coordinates</span>
+ldf<span class="o">$</span>lat <span class="o">&lt;-</span> loc<span class="o">$</span>latitudeE7 <span class="o">/</span> <span class="m">1e7</span>
+ldf<span class="o">$</span>lon <span class="o">&lt;-</span> loc<span class="o">$</span>longitudeE7 <span class="o">/</span> <span class="m">1e7</span>
+ldf<span class="o">$</span>accuracy <span class="o">&lt;-</span> loc<span class="o">$</span>accuracy
+ldf<span class="o">$</span><span class="kp">t</span><span class="o">&lt;-</span><span class="kc">NULL</span>
+</pre></div>
+
+
+<p>Ось так виглядають наші дані&nbsp;тепер:</p>
+<div class="highlight"><pre><span></span><span class="kp">head</span><span class="p">(</span>ldf<span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>##                  time       date      lat      lon accuracy
+## 1 2016-12-31 18:46:08 2016-12-31 50.45728 30.36654       22
+## 2 2016-12-31 18:42:22 2016-12-31 50.45728 30.36654       24
+## 3 2016-12-31 18:37:54 2016-12-31 50.45728 30.36654       24
+## 4 2016-12-31 18:37:21 2016-12-31 50.45728 30.36654       24
+## 5 2016-12-31 18:34:43 2016-12-31 50.45728 30.36654       24
+## 6 2016-12-31 18:33:13 2016-12-31 50.45728 30.36654       27
+</pre></div>
+
+
+<p>Тепер колонки часу та координат набули звичного для нас вигляду. Саме час розібратися із змістом самої&nbsp;таблиці.</p>
+<p>Переформуємо дані щодо переміщень (<strong>activitys</strong>)</p>
+<div class="highlight"><pre><span></span><span class="c1"># get the most likely activity type and confidence for each time point.</span>
+act <span class="o">&lt;-</span> laply<span class="p">(</span>loc<span class="o">$</span>activitys<span class="p">,</span> <span class="kr">function</span><span class="p">(</span>f<span class="p">)</span> <span class="p">{</span>
+  <span class="kr">if</span><span class="p">(</span><span class="kp">is.null</span><span class="p">(</span>f<span class="p">[[</span><span class="m">1</span><span class="p">]]))</span> <span class="kt">data.frame</span><span class="p">(</span>activity<span class="o">=</span><span class="kc">NA</span><span class="p">,</span>confidence<span class="o">=</span><span class="kc">NA</span><span class="p">,</span>stringsAsFactors<span class="o">=</span><span class="bp">F</span><span class="p">)</span> <span class="kr">else</span> <span class="kt">data.frame</span><span class="p">(</span>activity<span class="o">=</span>f<span class="p">[[</span><span class="m">2</span><span class="p">]][[</span><span class="m">1</span><span class="p">]][[</span><span class="m">1</span><span class="p">]][</span><span class="m">1</span><span class="p">],</span>confidence<span class="o">=</span>f<span class="p">[[</span><span class="m">2</span><span class="p">]][[</span><span class="m">1</span><span class="p">]][[</span><span class="m">2</span><span class="p">]][</span><span class="m">1</span><span class="p">],</span>stringsAsFactors<span class="o">=</span><span class="bp">F</span><span class="p">)</span>
+<span class="p">},</span><span class="m">.</span>progress<span class="o">=</span><span class="s">&quot;none&quot;</span><span class="p">)</span>
+
+<span class="c1"># combine activity data with the main dataset</span>
+ldf<span class="o">$</span>activity <span class="o">&lt;-</span> <span class="kp">as.character</span><span class="p">(</span>act<span class="p">[,</span><span class="m">1</span><span class="p">])</span>
+ldf<span class="o">$</span>confidence <span class="o">&lt;-</span> <span class="kp">as.numeric</span><span class="p">(</span>act<span class="p">[,</span><span class="m">2</span><span class="p">])</span>
+</pre></div>
+
+
+<p><strong>activitys</strong> може бути наступних&nbsp;видів:</p>
+<div class="highlight"><pre><span></span>a<span class="o">&lt;-</span>count<span class="p">(</span>ldf<span class="o">$</span>activity<span class="p">)</span>
+a<span class="o">&lt;-</span>a<span class="p">[</span><span class="kp">order</span><span class="p">(</span><span class="o">-</span>a<span class="o">$</span>freq<span class="p">),]</span>
+a
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>##                x    freq
+## 3             NA 1068379
+## 6          still  387711
+## 7        tilting   26614
+## 2      inVehicle   16570
+## 8        unknown   16467
+## 5         onFoot   10979
+## 4      onBicycle     680
+## 1 exitingVehicle     427
+</pre></div>
+
+
+<p>Надалі спробуємо отримати з цих ознак щось&nbsp;путнє.</p>
+<p>Додаємо дані про швидкість, висоту та напрям&nbsp;руху</p>
+<div class="highlight"><pre><span></span>ldf<span class="o">$</span>velocity <span class="o">&lt;-</span> loc<span class="o">$</span>velocity<span class="o">*</span><span class="m">3.6</span>  <span class="c1"># m/s -&gt; km/h</span>
+ldf<span class="o">$</span>heading <span class="o">&lt;-</span> loc<span class="o">$</span>heading
+ldf<span class="o">$</span>altitude <span class="o">&lt;-</span>loc<span class="o">$</span>altitude
+</pre></div>
+
+
+<p>Все, більше інофрмації в Google location history немає, тому збережемо отриманий результат на диск та звільнимо оперативну&nbsp;память</p>
+<div class="highlight"><pre><span></span><span class="c1">#save ready data</span>
+<span class="c1"># saveRDS(ldf, &quot;./loc_data.rds&quot;)</span>
+<span class="c1"># rm(list=ls())</span>
+</pre></div>
+
+
+<h2>Які таємниці про користувача сховані у Google location&nbsp;history</h2>
+<hr>
+<p>Для зручності та більш швидкої обробки давайте розіб&#8217;ємо дані по&nbsp;роках.</p>
+<div class="highlight"><pre><span></span>ldf<span class="o">&lt;-</span><span class="kp">readRDS</span><span class="p">(</span><span class="s">&quot;./loc_data.rds&quot;</span><span class="p">)</span>
+df2013<span class="o">&lt;-</span><span class="kp">subset</span><span class="p">(</span>ldf<span class="p">,</span>date <span class="o">&gt;=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2013-01-01&quot;</span><span class="p">)</span> <span class="o">&amp;</span> date <span class="o">&lt;=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2013-12-31&quot;</span><span class="p">))</span>
+df2014<span class="o">&lt;-</span><span class="kp">subset</span><span class="p">(</span>ldf<span class="p">,</span>date <span class="o">&gt;=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2014-01-01&quot;</span><span class="p">)</span> <span class="o">&amp;</span> date <span class="o">&lt;=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2014-12-31&quot;</span><span class="p">))</span>
+df2015<span class="o">&lt;-</span><span class="kp">subset</span><span class="p">(</span>ldf<span class="p">,</span>date <span class="o">&gt;=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2015-01-01&quot;</span><span class="p">)</span> <span class="o">&amp;</span> date <span class="o">&lt;=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2015-12-31&quot;</span><span class="p">))</span>
+df2016<span class="o">&lt;-</span><span class="kp">subset</span><span class="p">(</span>ldf<span class="p">,</span>date <span class="o">&gt;=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2016-01-01&quot;</span><span class="p">)</span> <span class="o">&amp;</span> date <span class="o">&lt;=</span> <span class="kp">as.Date</span><span class="p">(</span><span class="s">&quot;2016-12-31&quot;</span><span class="p">))</span>
+</pre></div>
+
+
+<h3>З якого моменту Google слідкував за&nbsp;мною?</h3>
+<div class="highlight"><pre><span></span><span class="kp">min</span><span class="p">(</span>ldf<span class="o">$</span>time<span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>## [1] &quot;2012-12-22 16:54:39 EET&quot;
+</pre></div>
+
+
+<p><strong>Отже з 22 грудня 2012 року&nbsp;:)</strong></p>
+<h3>З якою частотою це&nbsp;відбувалось?</h3>
+<p>Подивимось загальну статистику&nbsp;даних:</p>
+<ul>
+<li>кількість&nbsp;записів</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="kp">nrow</span><span class="p">(</span>ldf<span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>## [1] 1527827
+</pre></div>
+
+
+<ul>
+<li>час початку та кінцевий відслідковування (слід зауважити, що архів я отримав станом на вечір 31 грудня 2016 року, щоб мати повну статистику ще й за 2016&nbsp;рік)</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="kp">min</span><span class="p">(</span>ldf<span class="o">$</span>time<span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>## [1] &quot;2012-12-22 16:54:39 EET&quot;
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="kp">max</span><span class="p">(</span>ldf<span class="o">$</span>time<span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>## [1] &quot;2016-12-31 18:46:08 EET&quot;
+</pre></div>
+
+
+<p>Всього архів містить 1 527 827 зафіксованих місцезнаходжень з 22-12-2012 до&nbsp;31-12-2016.</p>
+<div class="highlight"><pre><span></span>points_p_day <span class="o">&lt;-</span> <span class="kt">data.frame</span><span class="p">(</span><span class="kp">table</span><span class="p">(</span>ldf<span class="o">$</span><span class="kp">date</span><span class="p">),</span> group <span class="o">=</span> <span class="s">&quot;day&quot;</span><span class="p">)</span>
+<span class="kp">summary</span><span class="p">(</span>points_p_day<span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>##          Var1           Freq        group     
+##  2012-12-22:   1   Min.   :   1.0   day:1118  
+##  2012-12-23:   1   1st Qu.: 496.2             
+##  2012-12-24:   1   Median : 765.5             
+##  2012-12-25:   1   Mean   :1366.6             
+##  2012-12-26:   1   3rd Qu.:1437.0             
+##  2012-12-27:   1   Max.   :5928.0             
+##  (Other)   :1112
+</pre></div>
+
+
+<p><strong>Це 1118 днів, протягом яких частота (Freq) фіксації місцезнаходження коливалась від 1 до 5928 раз на добу. В середньому це склало 1367 раз на добу, 56,91 раз на годину, або майже 1 раз на&nbsp;хвилину.</strong></p>
+<p><em>* Оскільки між цими двома датами мало би бути 1470 днів, то відповідно інформація про 352 днів була видалена або я забороняв збір даних щодо місцезнаходження. Нічого дивного, бо на той час я ще не сподівався, що буду вивчати своє місцезнаходження за декілька&nbsp;років.</em></p>
+<p>Насправді, інтервал оновлення визначається рівнем заряду батареї, від того рухаєтесь Ви чи ні, як швидко рухаєтесь та деяких інших&nbsp;факторів.</p>
+<h3>Де я побував, наприклад, в 2014&nbsp;році?</h3>
+<div class="highlight"><pre><span></span><span class="kn">require</span><span class="p">(</span><span class="s">&#39;ggplot2&#39;</span><span class="p">)</span>
+<span class="kn">require</span><span class="p">(</span><span class="s">&#39;ggmap&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>## Loading required package: ggplot2
+## Loading required package: ggmap
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>df<span class="o">&lt;-</span>df2014
+
+<span class="c1"># compute the bounding box</span>
+ldf_bbox <span class="o">&lt;-</span> make_bbox<span class="p">(</span>lat <span class="o">=</span> df<span class="o">$</span>lat<span class="p">,</span> lon <span class="o">=</span> df<span class="o">$</span>lon<span class="p">,</span>f<span class="o">=</span><span class="m">0.7</span><span class="p">)</span>
+
+ldf_big  <span class="o">&lt;-</span> get_map<span class="p">(</span>location <span class="o">=</span> ldf_bbox<span class="p">,</span> <span class="kn">source</span><span class="o">=</span><span class="s">&#39;google&#39;</span><span class="p">,</span>maptype <span class="o">=</span> <span class="s">&quot;roadmap&quot;</span><span class="p">,</span> zoom <span class="o">=</span> <span class="m">5</span><span class="p">)</span>
+
+ggmap<span class="p">(</span>ldf_big <span class="p">)</span> <span class="o">+</span> 
+  geom_point<span class="p">(</span>data <span class="o">=</span> df<span class="p">,</span> mapping <span class="o">=</span>aes<span class="p">(</span>x <span class="o">=</span> lon<span class="p">,</span> y <span class="o">=</span> lat<span class="p">,</span> color<span class="o">=</span><span class="s">&quot;color&quot;</span><span class="p">),</span> color <span class="o">=</span> <span class="s">&quot;red&quot;</span><span class="p">)</span> 
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>## Warning: bounding box given to google - spatial extent only approximate.
+## converting bounding box to center/zoom specification. (experimental)
+## Map from URL : http://maps.googleapis.com/maps/api/staticmap?center=43.093942,27.436017&amp;zoom=5&amp;size=640x640&amp;scale=2&amp;maptype=roadmap&amp;language=en-EN&amp;sensor=false
+</pre></div>
+
+
+<p><img alt="" src="./figure/unnamed-chunk-14-1.png"> </p>
+<p><strong>Червоні позначки на карті показують всі мої координати протягом року. Як видно, в 2014 році я подорожував по Україні та був на острові Крит у&nbsp;Греції.</strong></p>
+<h3>Де я бував у&nbsp;Києві?</h3>
+<p>Давайте глянемо на мої місцезнаходження у більшому масштабі. Спершу&nbsp;Київ.</p>
+<div class="highlight"><pre><span></span>l<span class="o">&lt;-</span>geocode<span class="p">(</span><span class="s">&#39;Ukraine, Kyiv&#39;</span><span class="p">)</span>
+
+region<span class="o">&lt;-</span>get_googlemap<span class="p">(</span>center <span class="o">=</span> <span class="kt">c</span><span class="p">(</span>l<span class="o">$</span>lon<span class="p">,</span>l<span class="o">$</span>lat<span class="p">),</span> color <span class="o">=</span> <span class="s">&quot;color&quot;</span><span class="p">,</span>size <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">640</span><span class="p">,</span><span class="m">640</span><span class="p">),</span>scale <span class="o">=</span> <span class="m">2</span><span class="p">,</span>zoom <span class="o">=</span> <span class="m">11</span><span class="p">)</span>
+
+ggmap<span class="p">(</span>region<span class="p">,</span> extent<span class="o">=</span><span class="s">&quot;device&quot;</span><span class="p">)</span> <span class="o">+</span> 
+  geom_point<span class="p">(</span>data <span class="o">=</span> df<span class="p">,</span> aes<span class="p">(</span>x <span class="o">=</span> lon<span class="p">,</span> y <span class="o">=</span> lat<span class="p">,</span>color <span class="o">=</span> <span class="s">&quot;color&quot;</span><span class="p">),</span> alpha <span class="o">=</span> <span class="m">0.5</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>## Information from URL : http://maps.googleapis.com/maps/api/geocode/json?address=Ukraine,%20Kyiv&amp;sensor=false
+## Map from URL : http://maps.googleapis.com/maps/api/staticmap?center=50.4501,30.5234&amp;zoom=11&amp;size=640x640&amp;scale=2&amp;maptype=terrain&amp;sensor=false
+## Warning: `panel.margin` is deprecated. Please use `panel.spacing` property
+## instead
+## Warning: Removed 23604 rows containing missing values (geom_point).
+</pre></div>
+
+
+<p><img alt="" src="./figure/unnamed-chunk-15-1.png"> </p>
+<p>Добре видно, що більшість моїх місцеперебувань знаходилися на правому березі Дніпра, на лівому фактично лише окремі точки. Щоб отримати більш виразну картину, давайте змінимо колір точки перебування в залежності від швидкості, таким чином буде видно чи я просто проїзджав місцевість чи, можливо, знаходився там більш довгий&nbsp;час.</p>
+<div class="highlight"><pre><span></span>df<span class="o">&lt;-</span>df<span class="p">[</span><span class="kp">which</span><span class="p">(</span><span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>df<span class="o">$</span>velocity<span class="p">)),</span> <span class="p">]</span>
+
+ggmap<span class="p">(</span>region<span class="p">,</span> extent<span class="o">=</span><span class="s">&quot;device&quot;</span><span class="p">)</span> <span class="o">+</span> 
+  geom_point<span class="p">(</span>data <span class="o">=</span> df<span class="p">,</span> aes<span class="p">(</span>x <span class="o">=</span> lon<span class="p">,</span> y <span class="o">=</span> lat<span class="p">,</span> color<span class="o">=</span>velocity<span class="p">),</span> alpha <span class="o">=</span> <span class="m">0.5</span><span class="p">)</span><span class="o">+</span>
+  theme<span class="p">(</span>legend.position <span class="o">=</span> <span class="s">&quot;right&quot;</span><span class="p">)</span> <span class="o">+</span> 
+  labs<span class="p">(</span>x <span class="o">=</span> <span class="s">&quot;Longitude&quot;</span><span class="p">,</span> y <span class="o">=</span> <span class="s">&quot;Latitude&quot;</span><span class="p">,</span> 
+       title <span class="o">=</span> <span class="s">&quot;Location history data points in Kyiv&quot;</span><span class="p">,</span>
+       subtitle <span class="o">=</span> <span class="s">&quot;Color scale shows velocity measured for location&quot;</span>
+       <span class="p">)</span> <span class="o">+</span>
+  scale_colour_gradient<span class="p">(</span>low <span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span> high <span class="o">=</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> guide <span class="o">=</span> guide_legend<span class="p">(</span>title <span class="o">=</span> <span class="s">&quot;Velocity, km/h&quot;</span><span class="p">))</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>## Warning: `panel.margin` is deprecated. Please use `panel.spacing` property
+## instead
+</pre></div>
+
+
+<p><img alt="" src="./figure/unnamed-chunk-16-1.png">        </p>
+<p><strong>Точки з синім кольором показують місця, де я на протязі року знаходився найдовше. Це дім, робота&nbsp;etc.</strong></p>
+<h3>Де я бував у&nbsp;Львові?</h3>
+<div class="highlight"><pre><span></span>df<span class="o">&lt;-</span>df2014
+l<span class="o">&lt;-</span>geocode<span class="p">(</span><span class="s">&#39;Ukraine, Lviv&#39;</span><span class="p">)</span>
+
+region<span class="o">&lt;-</span>get_googlemap<span class="p">(</span>center <span class="o">=</span> <span class="kt">c</span><span class="p">(</span>l<span class="o">$</span>lon<span class="p">,</span>l<span class="o">$</span>lat<span class="p">),</span> color <span class="o">=</span> <span class="s">&quot;color&quot;</span><span class="p">,</span>size <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">640</span><span class="p">,</span><span class="m">640</span><span class="p">),</span>scale <span class="o">=</span> <span class="m">2</span><span class="p">,</span>zoom <span class="o">=</span> <span class="m">11</span><span class="p">)</span>
+
+ggmap<span class="p">(</span>region<span class="p">,</span>extent<span class="o">=</span><span class="s">&quot;device&quot;</span><span class="p">)</span> <span class="o">+</span> geom_point<span class="p">(</span>data <span class="o">=</span> df<span class="p">,</span> aes<span class="p">(</span>x <span class="o">=</span> lon<span class="p">,</span> y <span class="o">=</span> lat<span class="p">,</span> color<span class="o">=</span>velocity<span class="p">),</span> alpha <span class="o">=</span> <span class="m">0.5</span><span class="p">,</span> color <span class="o">=</span> <span class="s">&quot;red&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>## Information from URL : http://maps.googleapis.com/maps/api/geocode/json?address=Ukraine,%20Lviv&amp;sensor=false
+## Map from URL : http://maps.googleapis.com/maps/api/staticmap?center=49.839683,24.029717&amp;zoom=11&amp;size=640x640&amp;scale=2&amp;maptype=terrain&amp;sensor=false
+## Warning: `panel.margin` is deprecated. Please use `panel.spacing` property
+## instead
+## Warning: Removed 194024 rows containing missing values (geom_point).
+</pre></div>
+
+
+<p><img alt="" src="./figure/unnamed-chunk-17-1.png"></p>
+<h3>Де я бував у&nbsp;Греції?</h3>
+<div class="highlight"><pre><span></span>l<span class="o">&lt;-</span>geocode<span class="p">(</span><span class="s">&#39;Greece, Crete&#39;</span><span class="p">)</span>
+
+region<span class="o">&lt;-</span>get_googlemap<span class="p">(</span>center <span class="o">=</span> <span class="kt">c</span><span class="p">(</span>l<span class="o">$</span>lon<span class="p">,</span>l<span class="o">$</span>lat<span class="p">),</span> color <span class="o">=</span> <span class="s">&quot;color&quot;</span><span class="p">,</span>size <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">640</span><span class="p">,</span><span class="m">640</span><span class="p">),</span>scale <span class="o">=</span> <span class="m">2</span><span class="p">,</span>zoom <span class="o">=</span> <span class="m">8</span><span class="p">)</span>
+
+ggmap<span class="p">(</span>region<span class="p">,</span>extent<span class="o">=</span><span class="s">&quot;device&quot;</span><span class="p">)</span> <span class="o">+</span> geom_point<span class="p">(</span>data <span class="o">=</span> df<span class="p">,</span> aes<span class="p">(</span>x <span class="o">=</span> lon<span class="p">,</span> y <span class="o">=</span> lat<span class="p">),</span> alpha <span class="o">=</span> <span class="m">0.5</span><span class="p">,</span> color <span class="o">=</span> <span class="s">&quot;red&quot;</span><span class="p">)</span><span class="o">+</span>
+  theme<span class="p">(</span>legend.position <span class="o">=</span> <span class="s">&quot;right&quot;</span><span class="p">)</span> <span class="o">+</span>
+  labs<span class="p">(</span>
+    x <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="p">,</span>
+    y <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="p">,</span>
+    title <span class="o">=</span> <span class="s">&quot;Location history data points in Greece 2014&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>## Information from URL : http://maps.googleapis.com/maps/api/geocode/json?address=Greece,%20Crete&amp;sensor=false
+## Map from URL : http://maps.googleapis.com/maps/api/staticmap?center=35.240117,24.809269&amp;zoom=8&amp;size=640x640&amp;scale=2&amp;maptype=terrain&amp;sensor=false
+## Warning: `panel.margin` is deprecated. Please use `panel.spacing` property
+## instead
+## Warning: Removed 202813 rows containing missing values (geom_point).
+</pre></div>
+
+
+<p><img alt="" src="./figure/unnamed-chunk-18-1.png"></p>
+<h3>Що показує параметр &#8220;activity&#8221;&nbsp;?</h3>
+<p>Google визначає для кожної пари координат яким чином пересувався об&#8217;єкт і якщо активність позначити кольором (так само як я зробив для швидкості), то можливо побачити на карті найбільш частий для конкретної точки тип&nbsp;активністі.</p>
+<div class="highlight"><pre><span></span>df<span class="o">&lt;-</span>df2014
+df<span class="o">$</span>activity<span class="p">[</span>df<span class="o">$</span>activity<span class="o">==</span><span class="s">&quot;NA&quot;</span><span class="p">]</span><span class="o">=</span> <span class="kc">NA</span>
+df<span class="o">&lt;-</span>df<span class="p">[</span><span class="kp">which</span><span class="p">(</span><span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>df<span class="o">$</span>activity<span class="p">)),</span> <span class="p">]</span>
+
+df<span class="o">$</span>activtype<span class="o">&lt;-</span><span class="kp">as.factor</span><span class="p">(</span>df<span class="o">$</span>activity<span class="p">)</span>
+a<span class="o">&lt;-</span>count<span class="p">(</span>df<span class="o">$</span>activity<span class="p">)</span>
+a<span class="o">&lt;-</span>a<span class="p">[</span><span class="kp">order</span><span class="p">(</span><span class="o">-</span>a<span class="o">$</span>freq<span class="p">),]</span>
+a
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>##                x   freq
+## 5          still 123901
+## 6        tilting   8014
+## 2      inVehicle   4013
+## 7        unknown   3760
+## 4         onFoot    733
+## 1 exitingVehicle     58
+## 3      onBicycle     46
+</pre></div>
+
+
+<ul>
+<li>
+<p>still - об&#8217;єкт знаходився на&nbsp;місці</p>
+</li>
+<li>
+<p>tilting - об&#8217;єкт&nbsp;повертає</p>
+</li>
+<li>
+<p>inVehicle - об&#8217;єкт рухається в&nbsp;транспорті</p>
+</li>
+<li>
+<p>unknown - невідомий вид&nbsp;активності</p>
+</li>
+<li>
+<p>onFoot - об&#8217;єкт йде&nbsp;пішки</p>
+</li>
+<li>
+<p>onBicycle - об&#8217;єкт рухається на&nbsp;велосипеді</p>
+</li>
+<li>
+<p>exitingVehicle - об&#8217;єкт залишає траспортний&nbsp;засіб</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span>l<span class="o">&lt;-</span>geocode<span class="p">(</span><span class="s">&#39;Ukraine, Kyiv&#39;</span><span class="p">)</span>
+
+region<span class="o">&lt;-</span>get_googlemap<span class="p">(</span>center <span class="o">=</span> <span class="kt">c</span><span class="p">(</span>l<span class="o">$</span>lon<span class="p">,</span>l<span class="o">$</span>lat<span class="p">),</span> color <span class="o">=</span> <span class="s">&quot;color&quot;</span><span class="p">,</span>size <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">640</span><span class="p">,</span><span class="m">640</span><span class="p">),</span>scale <span class="o">=</span> <span class="m">2</span><span class="p">,</span>zoom <span class="o">=</span> <span class="m">11</span><span class="p">)</span>
+
+colors <span class="o">&lt;-</span> colorRampPalette<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">))(</span><span class="kp">length</span><span class="p">(</span><span class="kp">levels</span><span class="p">(</span>df<span class="o">$</span>activtype<span class="p">)))</span>
+
+colors
+
+ggmap<span class="p">(</span>region<span class="p">,</span> extent<span class="o">=</span><span class="s">&quot;device&quot;</span><span class="p">)</span> <span class="o">+</span> 
+  geom_point<span class="p">(</span>data <span class="o">=</span> df<span class="p">,</span> aes<span class="p">(</span>x <span class="o">=</span> lon<span class="p">,</span> y <span class="o">=</span> lat<span class="p">,</span> color<span class="o">=</span>df<span class="o">$</span>activtype<span class="p">),</span> alpha <span class="o">=</span> <span class="m">0.5</span><span class="p">)</span><span class="o">+</span>
+  theme<span class="p">(</span>legend.position <span class="o">=</span> <span class="s">&quot;right&quot;</span><span class="p">)</span> <span class="o">+</span> 
+  labs<span class="p">(</span>x <span class="o">=</span> <span class="s">&quot;Longitude&quot;</span><span class="p">,</span> y <span class="o">=</span> <span class="s">&quot;Latitude&quot;</span><span class="p">,</span> 
+       title <span class="o">=</span> <span class="s">&quot;Location history data points in Kyiv&quot;</span><span class="p">,</span>
+       subtitle <span class="o">=</span> <span class="s">&quot;Color scale shows velocity measured for location&quot;</span>
+       <span class="p">)</span> <span class="o">+</span>
+   scale_fill_manual<span class="p">(</span>values<span class="o">=</span>setNames<span class="p">(</span>colors<span class="p">,</span> <span class="kp">levels</span><span class="p">(</span>df<span class="o">$</span>activtype<span class="p">)))</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>## Information from URL : http://maps.googleapis.com/maps/api/geocode/json?address=Ukraine,%20Kyiv&amp;sensor=false
+## Map from URL : http://maps.googleapis.com/maps/api/staticmap?center=50.4501,30.5234&amp;zoom=11&amp;size=640x640&amp;scale=2&amp;maptype=terrain&amp;sensor=false
+## [1] &quot;#0000FF&quot; &quot;#5555AA&quot; &quot;#AAAA55&quot; &quot;#FFFF00&quot; &quot;#FFAA00&quot; &quot;#FF5500&quot; &quot;#FF0000&quot;
+## Warning: `panel.margin` is deprecated. Please use `panel.spacing` property
+## instead
+## Warning: Removed 13491 rows containing missing values (geom_point).
+</pre></div>
+
+
+<p><img alt="" src="./figure/unnamed-chunk-20-1.png"></p>
+<p>Наостанку зробимо частотний розподіл активності за 2014&nbsp;рік.</p>
+<div class="highlight"><pre><span></span>ggplot<span class="p">(</span>df<span class="p">,</span> aes<span class="p">(</span>x <span class="o">=</span> df<span class="o">$</span>activity<span class="p">,</span> group <span class="o">=</span> activity<span class="p">,</span> fill <span class="o">=</span> activtype<span class="p">))</span> <span class="o">+</span> 
+  geom_bar<span class="p">()</span>  <span class="o">+</span> 
+  guides<span class="p">(</span>fill <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span> <span class="o">+</span>
+   labs<span class="p">(</span>
+    x <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    y <span class="o">=</span> <span class="s">&quot;Count&quot;</span><span class="p">,</span>
+    title <span class="o">=</span> <span class="s">&quot;Main activities in 2014&quot;</span><span class="p">,</span>
+    caption <span class="o">=</span> <span class="s">&quot;Associated activity for recorded positions in 2014. </span>
+<span class="s">    Because Google records activity probabilities for each position, </span>
+<span class="s">    only the activity with highest likelihood were chosen for each position.&quot;</span>
+  <span class="p">)</span>
+</pre></div>
+
+
+<p><img alt="" src="/figure/unnamed-chunk-21-1.png"> </p>
+<p><strong>Як видно з діаграми, більшість часу я знаходився у якомусь місці, а коли рухався, то пересувався на авто.</strong> 
+До речі, на велосипеді я не пересувався зовсім, це скорше інформація з транспортних заторів, в які я&nbsp;попадав.</p>
+<p>Наостанку інформація про сесію&nbsp;R-Studio.</p>
+<div class="highlight"><pre><span></span>sessionInfo<span class="p">()</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>## R version 3.2.3 (2015-12-10)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 16.04.2 LTS
+## 
+## locale:
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=uk_UA.UTF-8        LC_COLLATE=en_US.UTF-8    
+##  [5] LC_MONETARY=uk_UA.UTF-8    LC_MESSAGES=en_US.UTF-8   
+##  [7] LC_PAPER=uk_UA.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=uk_UA.UTF-8 LC_IDENTIFICATION=C       
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] ggmap_2.6.1    ggplot2_2.2.1  plyr_1.8.4     jsonlite_1.2  
+## [5] markdown_0.7.7 knitr_1.15.1  
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.9       magrittr_1.5      maps_3.1.1       
+##  [4] munsell_0.4.3     lattice_0.20-33   geosphere_1.5-5  
+##  [7] colorspace_1.3-2  rjson_0.2.15      jpeg_0.1-8       
+## [10] stringr_1.1.0     tools_3.2.3       grid_3.2.3       
+## [13] gtable_0.2.0      png_0.1-7         htmltools_0.3.5  
+## [16] yaml_2.1.14       lazyeval_0.2.0    rprojroot_1.2    
+## [19] digest_0.6.12     assertthat_0.1    tibble_1.2       
+## [22] reshape2_1.4.2    mapproj_1.2-4     evaluate_0.10    
+## [25] rmarkdown_1.3     labeling_0.3      sp_1.2-4         
+## [28] stringi_1.1.2     RgoogleMaps_1.4.1 scales_0.4.1     
+## [31] backports_1.0.5   proto_1.0.0
+</pre></div>
+
+
+<h2>Коротко: що знає про наше місцерозташування Google, якщо ми користуємся смартфоном з обліковим записом Google та дозволили збирати інформацію про&nbsp;місцезнаходження?</h2>
+<hr>
+<p><strong>- Координати у часі та просторі з періодом в середньому один раз на хвилину, а також тип переміщення (активності) для конкретної&nbsp;точки.</strong></p>
+<p><sub>* - що стосується точності для координат - вона залежить від того, у який спосіб визначалось місцерозташування. Існує два провайдера координат для мобіьного телефону: <span class="caps">GPS</span> и Network. <span class="caps">GPS</span> – це дані із <span class="caps">GPS</span>-супутників.Network – це координати, які можна отримати через мобільну мережу чи WiFi.
+Орієнтовно, цифри похибки приблизно такі:
+-   gps ~ 15 м
+-   WiFi - залежить від розташування точок WiFi, за умови їх наявності ~ 20-30 м.
+-   Координати, отримані від мобільної мережі, залежать від розташування <span class="caps">GSM</span>-станцій, орієнтовна цифра похибки ~1500 м </sub></p>
+<p><strong>- Швидкість переміщення, висоту над рівнем моря та напрямок&nbsp;руху.</strong></p>
+<h2>Висновки</h2>
+<p>Стосовно себе, я вважаю, що функція Google location history скоріш корисна, аніж шкідлива. Я із задоволенням пригадав, де мені прийшлось побувати за останні кілька років. Також хочу сказати, що пошкодував, що в мене немає частини моєї історії місцезнаходження і в майбутньому не планую виключати цю опцію в&nbsp;телефоні.</p>
+<p>Проте, якщо подібна інформація попаде до сторонніх осіб, вони можуть&nbsp;взнати:</p>
+<ul>
+<li>місце проживання, тобто де Ви у більшості часу знаходились&nbsp;вночі,</li>
+<li>місце роботи чи перебуванння&nbsp;вдень, </li>
+<li>інші популярні місця, наприклад де Ви буваєте по&nbsp;вихідним,</li>
+<li>швидкість пересування ( відповідно, вид&nbsp;транспорту),</li>
+<li>відділення банків, магазинів і т.п., в яких Ви зазвичай&nbsp;буваєте.</li>
+</ul>
+<p>Доповнивши дані інформацією з інших джерел по людині можливо взнати практично все. Але це вже зовсім інша історія про дані. Залишається сподіватися, що Google location history може попасти до чужих рук тільки якщо Ваш акаунт зламають. А щоб цього не відбулось - регулярно міняйте паролі та увімкніть двохфакторну&nbsp;аутентифікацію.</p>
+<hr>
+<h3>При написанні було використано наступні&nbsp;матеріали:</h3>
+<ol>
+<li>
+<p><a href="https://www.r-bloggers.com/how-to-map-your-google-location-history-with-r/">How to map your Google location history with R</a>.</p>
+</li>
+<li>
+<p><a href="http://beneathdata.com/how-to/visualizing-my-location-history/">Visualizing My Location History with Python, Shapely, and&nbsp;Basemap</a></p>
+</li>
+<li>
+<p><a href="https://rstudio-pubs-static.s3.amazonaws.com/60451_b3ba24cd0e854af491cb7e6816164a69.html">My Google Location&nbsp;Data</a></p>
+</li>
+</ol>
+<div id="disqus_thread"></div>
+
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://datareview.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            </div>
+            <!-- /.entry-content -->
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'datareview'; // required: replace example with your forum shortname
+
+                var disqus_url = 'https://datareview.github.io/google_history2.html';
+
+            var disqus_config = function () {
+                this.language = "en";
+            };
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+              <ul class="list-group" id="social">
+                <li class="list-group-item"><a href="https://www.linkedin.com/in/oleksandr-kursik"><i class="fa fa-linkedin-square fa-lg"></i> linkedin</a></li>
+                <li class="list-group-item"><a href="https://www.facebook.com/olexandr.kursik"><i class="fa fa-facebook-square fa-lg"></i> facebook</a></li>
+                <li class="list-group-item"><a href="https://github.com/alexikey"><i class="fa fa-github-square fa-lg"></i> github</a></li>
+              </ul>
+            </li>
+
+
+
+            <li class="list-group-item"><a href="https://datareview.github.io/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+                <ul class="list-group " id="tags">
+                    <li class="list-group-item tag-1">
+                        <a href="https://datareview.github.io/tag/r.html">
+                            R
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-1">
+                        <a href="https://datareview.github.io/tag/vizualization.html">
+                            vizualization
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-2">
+                        <a href="https://datareview.github.io/tag/google-location.html">
+                            google location
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-2">
+                        <a href="https://datareview.github.io/tag/google-history.html">
+                            google history
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="https://datareview.github.io/tag/imdb.html">
+                            imdb
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
+    </ul>
+</section>            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2017 Oleksandr Kursik
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="https://datareview.github.io/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://datareview.github.io/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="https://datareview.github.io/theme/js/respond.min.js"></script>
+
+    <script src="https://datareview.github.io/theme/js/bodypadding.js"></script>
+    <!-- Disqus -->
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'datareview'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <!-- End Disqus Code -->
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-96120506-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+
+</body>
+</html>
